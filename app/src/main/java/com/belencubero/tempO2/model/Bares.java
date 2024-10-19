@@ -1,6 +1,7 @@
 package com.belencubero.tempO2.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Bares {
 
@@ -31,12 +32,11 @@ public class Bares {
     }
 
     private BigDecimal kpaToBar(BigDecimal kpa){
-        return kpa.multiply(new BigDecimal(0.01)).setScale(7);
+        return kpa.multiply(new BigDecimal("0.01")).setScale(7, RoundingMode.HALF_DOWN);
     }
 
     private BigDecimal psiToBar(BigDecimal psi){
-        return psi.multiply(new BigDecimal(0.0689476)).setScale(7);
+        return psi.multiply(new BigDecimal("0.0689476")).setScale(7, RoundingMode.HALF_DOWN);
     }
-
 
 }

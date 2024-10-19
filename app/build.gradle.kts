@@ -40,4 +40,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    // Dependencia para las pruebas unitarias con JUnit
+    testImplementation("junit:junit:4.13.2")
+
+    // Dependencias para pruebas instrumentadas (opcional si las usas)
+    androidTestImplementation(libs.junit.v113)
+    androidTestImplementation(libs.espresso.core.v361)
 }

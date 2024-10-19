@@ -1,6 +1,7 @@
 package com.belencubero.tempO2.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Presion {
 
@@ -20,7 +21,7 @@ public class Presion {
         if (valor.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("El valor de presión no puede ser negativo.");
         }
-        this.valor = valor;
+        this.valor = valor.setScale(7, RoundingMode.HALF_DOWN);
     }
 
     public UnidadPresion getUnidad() {

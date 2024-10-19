@@ -4,24 +4,14 @@ import java.math.BigDecimal;
 
 public class Botella {
 
-    private boolean modoManual = false;
     private BigDecimal po;
     private BigDecimal pr;
     private BigDecimal volumen;
 
-    public Botella(boolean modoManual, Bares po, Bares pr, BigDecimal volumen) {
-        this.modoManual = modoManual;
+    public Botella(Bares po, BigDecimal volumen) {
         this.po = po.getValor();
-        this.pr = pr.getValor();
         this.volumen = volumen;
-    }
-
-    public boolean isModoManual() {
-        return modoManual;
-    }
-
-    public void setModoManual(boolean modoManual) {
-        this.modoManual = modoManual;
+        setPr();
     }
 
     public BigDecimal getPo() {
@@ -32,13 +22,6 @@ public class Botella {
         this.po = po.getValor();
     }
 
-    public BigDecimal getPr() {
-        return pr;
-    }
-
-    public void setPr(Bares pr) {
-        this.pr = pr.getValor();
-    }
 
     public BigDecimal getVolumen() {
         return volumen;
@@ -46,5 +29,21 @@ public class Botella {
 
     public void setVolumen(BigDecimal volumen) {
         this.volumen = volumen;
+    }
+
+    public BigDecimal getPr() {
+        return pr;
+    }
+
+    public void setPr(){
+        if (this.volumen.compareTo(new BigDecimal(5)) <= 0) {
+            this.pr = new BigDecimal(10);
+        } else {
+            this.pr = new BigDecimal(20);
+        }
+    }
+
+    public void setPr(Bares pr) {
+        this.pr = pr.getValor();
     }
 }
