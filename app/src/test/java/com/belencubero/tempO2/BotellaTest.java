@@ -9,7 +9,6 @@ import com.belencubero.tempO2.model.Bares;
 import com.belencubero.tempO2.model.Botella;
 import com.belencubero.tempO2.model.Presion;
 import com.belencubero.tempO2.model.UnidadPresion;
-import com.belencubero.tempO2.model.CalculadoraTiempo;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -167,6 +166,18 @@ public class BotellaTest {
         Bares bares = new Bares(presion);
         Botella botella = new Botella(bares, new BigDecimal("10"));
         Bares bares1 = new Bares(new Presion(new BigDecimal("-7"), UnidadPresion.BAR));
+        botella.setPr(bares1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCrearBotellaVolumenNegativo() {
+        Botella botella = new Botella(new Bares(new Presion(new BigDecimal("200"), UnidadPresion.BAR)), new BigDecimal("-10"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCrearBotellaPrMenorPo() {
+        Botella botella = new Botella(new Bares(new Presion(new BigDecimal("100"), UnidadPresion.BAR)), new BigDecimal("10"));
+        Bares bares1 = new Bares(new Presion(new BigDecimal("150"), UnidadPresion.BAR));
         botella.setPr(bares1);
     }
 

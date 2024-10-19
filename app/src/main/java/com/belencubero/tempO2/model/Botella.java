@@ -48,6 +48,9 @@ public class Botella {
     }
 
     public void setPr(Bares pr) {
+        if ((pr.getValor()).compareTo(this.getPo()) >= 0){
+            throw new IllegalArgumentException ("La presión actual no debería ser inferior a la presión residual.");
+        }
         this.pr = pr.getValor();
     }
 }
