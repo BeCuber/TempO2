@@ -1,6 +1,7 @@
 package com.belencubero.tempO2.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Botella {
 
@@ -10,7 +11,7 @@ public class Botella {
 
     public Botella(Bares po, BigDecimal volumen) {
         this.po = po.getValor();
-        this.volumen = volumen;
+        setVolumen(volumen);
         setPr();
     }
 
@@ -28,7 +29,10 @@ public class Botella {
     }
 
     public void setVolumen(BigDecimal volumen) {
-        this.volumen = volumen;
+        if (volumen.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El volumen debe ser mayor a cero.");
+        }
+        this.volumen = volumen.setScale(7, RoundingMode.HALF_DOWN);
     }
 
     public BigDecimal getPr() {
@@ -36,10 +40,10 @@ public class Botella {
     }
 
     public void setPr(){
-        if (this.volumen.compareTo(new BigDecimal(5)) <= 0) {
-            this.pr = new BigDecimal(10);
+        if (this.volumen.compareTo(new BigDecimal("5").setScale(7, RoundingMode.HALF_DOWN)) <= 0) {
+            this.pr = new BigDecimal("10").setScale(7, RoundingMode.HALF_DOWN);
         } else {
-            this.pr = new BigDecimal(20);
+            this.pr = new BigDecimal("20").setScale(7, RoundingMode.HALF_DOWN);
         }
     }
 

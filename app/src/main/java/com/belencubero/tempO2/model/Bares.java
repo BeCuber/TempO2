@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class Bares {
-
+    private static final BigDecimal KPA_A_BAR = new BigDecimal("0.01").setScale(7, RoundingMode.HALF_DOWN);
+    private static final BigDecimal PSI_A_BAR = new BigDecimal("0.0689476").setScale(7, RoundingMode.HALF_DOWN);
     BigDecimal valor;
 
     public Bares(Presion presion){
@@ -32,11 +33,11 @@ public class Bares {
     }
 
     private BigDecimal kpaToBar(BigDecimal kpa){
-        return kpa.multiply(new BigDecimal("0.01")).setScale(7, RoundingMode.HALF_DOWN);
+        return kpa.multiply(KPA_A_BAR).setScale(7, RoundingMode.HALF_DOWN);
     }
 
     private BigDecimal psiToBar(BigDecimal psi){
-        return psi.multiply(new BigDecimal("0.0689476")).setScale(7, RoundingMode.HALF_DOWN);
+        return psi.multiply(PSI_A_BAR).setScale(7, RoundingMode.HALF_DOWN);
     }
 
 }

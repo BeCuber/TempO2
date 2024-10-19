@@ -1,4 +1,4 @@
-# Proyecto: TempO~2~
+# Proyecto: TempO<sub>2</sub>
 ## Descripción
 Este repositorio contiene ejercicios prácticos y apuntes de código para mejorar mis habilidades en el manejo de Java y estructuración de proyectos. No es un proyecto final, sino una colección de ejemplos y experimentos para aprender y practicar. **El contenido está en desarrollo y puede no estar completamente optimizado o libre de errores.**
 ## Tecnologías utilizadas
@@ -24,7 +24,7 @@ Este repositorio no tiene licencia oficial ya que es únicamente un espacio para
 ---
 ---
 
-# Project: TempO~2~
+# Project: TempO<sub>2</sub>
 ## Description
 This repository contains practical exercises and code notes to improve my skills in Java handling and setting structure on projects. It is not a final project, but rather a collection of examples and experiments for learning and practice. **The content is under development and may not be fully optimized or error-free.**
 ## Technologies Used

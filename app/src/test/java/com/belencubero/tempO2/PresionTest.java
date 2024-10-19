@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import com.belencubero.tempO2.model.Presion;
 import com.belencubero.tempO2.model.UnidadPresion;
@@ -26,7 +27,7 @@ public class PresionTest {
         // Verifica que el método setValor funcione correctamente.
         Presion presion = new Presion(new BigDecimal("50"), UnidadPresion.KPA);
         presion.setValor(new BigDecimal("75"));
-        assertEquals(new BigDecimal("75").setScale(7), presion.getValor());
+        assertEquals(new BigDecimal("75").setScale(7, RoundingMode.HALF_DOWN), presion.getValor());
     }
     @Test(expected = IllegalArgumentException.class)
     public void testSetValorNegativoLanzaExcepcion() {
