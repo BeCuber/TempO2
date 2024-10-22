@@ -2,11 +2,11 @@ package com.belencubero.tempO2;
 
 import static org.junit.Assert.assertEquals;
 
-import com.belencubero.tempO2.model.Bares;
+//import com.belencubero.tempO2.model.Bares2;
 import com.belencubero.tempO2.model.Botella;
+import com.belencubero.tempO2.model.CalculadoraTiempo;
 import com.belencubero.tempO2.model.Presion;
 import com.belencubero.tempO2.model.UnidadPresion;
-import com.belencubero.tempO2.model.CalculadoraTiempo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -78,8 +78,7 @@ public class CalculadoraTiempoTest2 {
     public void testFormatoTiempoParametrizado() {
         // Crear objeto Botella
         Presion presion = new Presion(new BigDecimal(bares), UnidadPresion.BAR);
-        Bares baresObj = new Bares(presion);
-        Botella botella = new Botella(baresObj, new BigDecimal(volumen));
+        Botella botella = new Botella(presion, new BigDecimal(volumen));
 
         // Convertir flujo a BigDecimal
         BigDecimal flujoBD = new BigDecimal(flujo);

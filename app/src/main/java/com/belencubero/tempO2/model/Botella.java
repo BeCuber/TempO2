@@ -7,11 +7,11 @@ public class Botella {
 
     private BigDecimal po;
     private BigDecimal pr;
-    private BigDecimal volumen;
+    private BigDecimal vol1Bar;
 
-    public Botella(Bares po, BigDecimal volumen) {
-        this.po = po.getValor();
-        setVolumen(volumen);
+    public Botella(Presion po, BigDecimal vol1Bar) {
+        this.po = po.convertirABar();
+        setVol1Bar(vol1Bar);
         setPr();
     }
 
@@ -19,20 +19,20 @@ public class Botella {
         return po;
     }
 
-    public void setPo(Bares po) {
-        this.po = po.getValor();
+    public void setPo(Presion po) {
+        this.po = po.convertirABar();
     }
 
 
-    public BigDecimal getVolumen() {
-        return volumen;
+    public BigDecimal getVol1Bar() {
+        return vol1Bar;
     }
 
-    public void setVolumen(BigDecimal volumen) {
-        if (volumen.compareTo(BigDecimal.ZERO) <= 0) {
+    public void setVol1Bar(BigDecimal vol1Bar) {
+        if (vol1Bar.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("El volumen debe ser mayor a cero.");
         }
-        this.volumen = volumen.setScale(7, RoundingMode.HALF_DOWN);
+        this.vol1Bar = vol1Bar.setScale(7, RoundingMode.HALF_DOWN);
     }
 
     public BigDecimal getPr() {
@@ -40,17 +40,17 @@ public class Botella {
     }
 
     public void setPr(){
-        if (this.volumen.compareTo(new BigDecimal("5").setScale(7, RoundingMode.HALF_DOWN)) <= 0) {
+        if (this.vol1Bar.compareTo(new BigDecimal("5").setScale(7, RoundingMode.HALF_DOWN)) <= 0) {
             this.pr = new BigDecimal("10").setScale(7, RoundingMode.HALF_DOWN);
         } else {
             this.pr = new BigDecimal("20").setScale(7, RoundingMode.HALF_DOWN);
         }
     }
 
-    public void setPr(Bares pr) {
-        if ((pr.getValor()).compareTo(this.getPo()) >= 0){
+    public void setPr(Presion pr) {
+        if ((pr.convertirABar()).compareTo(this.getPo()) >= 0){
             throw new IllegalArgumentException ("La presión actual no debería ser inferior a la presión residual.");
         }
-        this.pr = pr.getValor();
+        this.pr = pr.convertirABar();
     }
 }

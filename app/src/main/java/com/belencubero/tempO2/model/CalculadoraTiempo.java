@@ -17,7 +17,7 @@ public class CalculadoraTiempo {
         // resta presiones
         BigDecimal diferenciaPresion = botella.getPo().subtract(botella.getPr()).setScale(7, RoundingMode.HALF_DOWN);
         // multiplica por volumen
-        BigDecimal cantidadO2 = diferenciaPresion.multiply(botella.getVolumen()).setScale(7, RoundingMode.HALF_DOWN);
+        BigDecimal cantidadO2 = diferenciaPresion.multiply(botella.getVol1Bar()).setScale(7, RoundingMode.HALF_DOWN);
         // divide por el flujo
         return cantidadO2.divide(flujo, 7, RoundingMode.HALF_DOWN);
     }

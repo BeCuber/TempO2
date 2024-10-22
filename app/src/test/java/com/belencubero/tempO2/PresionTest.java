@@ -1,13 +1,14 @@
 package com.belencubero.tempO2;
 
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import static org.junit.Assert.assertEquals;
 
 import com.belencubero.tempO2.model.Presion;
 import com.belencubero.tempO2.model.UnidadPresion;
+
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class PresionTest {
     @Test

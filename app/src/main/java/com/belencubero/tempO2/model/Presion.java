@@ -9,8 +9,8 @@ public class Presion {
     private UnidadPresion unidad;
 
     public Presion(BigDecimal valor, UnidadPresion unidad){
-        setValor(valor);
         this.unidad = unidad;
+        setValor(valor);
     }
 
     public BigDecimal getValor() {
@@ -31,4 +31,11 @@ public class Presion {
     public void setUnidad(UnidadPresion unidad) {
         this.unidad = unidad;
     }
+
+    // Conversión directa del valor a bares usando el enum
+    public BigDecimal convertirABar() {
+        return unidad.convertirABar(valor);
+    }
+
+
 }

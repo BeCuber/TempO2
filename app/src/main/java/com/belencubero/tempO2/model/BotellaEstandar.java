@@ -5,16 +5,16 @@ import java.math.RoundingMode;
 
 public enum BotellaEstandar {
     // sus L / 137 bares segun WHO
-    D(new BigDecimal("2,4817518"), new Presion2(new BigDecimal("137"), UnidadPresion2.BAR)),
-    E(new BigDecimal("2,4817518"), new Presion2(new BigDecimal("137"), UnidadPresion2.BAR)),
-    F(new BigDecimal("2,4817518"), new Presion2(new BigDecimal("137"), UnidadPresion2.BAR)),
-    G(new BigDecimal("2,4817518"), new Presion2(new BigDecimal("137"), UnidadPresion2.BAR)),
-    J(new BigDecimal("2,4817518"), new Presion2(new BigDecimal("137"), UnidadPresion2.BAR));
+    D(new BigDecimal("2,4817518"), new Presion(new BigDecimal("137"), UnidadPresion.BAR)),
+    E(new BigDecimal("2,4817518"), new Presion(new BigDecimal("137"), UnidadPresion.BAR)),
+    F(new BigDecimal("2,4817518"), new Presion(new BigDecimal("137"), UnidadPresion.BAR)),
+    G(new BigDecimal("2,4817518"), new Presion(new BigDecimal("137"), UnidadPresion.BAR)),
+    J(new BigDecimal("2,4817518"), new Presion(new BigDecimal("137"), UnidadPresion.BAR));
 
     private BigDecimal maxVol;
-    private Presion2 maxPressure;
+    private Presion maxPressure;
 
-    BotellaEstandar(BigDecimal maxVol, Presion2 maxPressure) {
+    BotellaEstandar(BigDecimal maxVol, Presion maxPressure) {
         this.maxVol = maxVol;
         this.maxPressure = maxPressure;
     }
