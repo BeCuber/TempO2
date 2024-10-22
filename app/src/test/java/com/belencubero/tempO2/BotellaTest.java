@@ -23,7 +23,6 @@ public class BotellaTest {
     public void testCrearBotella2DesdeBar() {
 
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.BAR);
-        //Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("2"));
 
         assertEquals(new BigDecimal("200").setScale(7, RoundingMode.HALF_DOWN), botella.getPo());
@@ -35,7 +34,6 @@ public class BotellaTest {
     public void testCrearBotella2DesdeKpa() {
 
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.KPA);
-        //Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("2"));
 
         assertEquals(new BigDecimal("2").setScale(7, RoundingMode.HALF_DOWN), botella.getPo());
@@ -47,7 +45,6 @@ public class BotellaTest {
     public void testCrearBotella2DesdePsi() {
 
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.PSI);
-//        Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("2"));
 
         assertEquals(new BigDecimal("13.78952").setScale(7, RoundingMode.HALF_DOWN), botella.getPo());
@@ -59,7 +56,6 @@ public class BotellaTest {
     public void testCrearBotella5DesdeBar() {
 
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.BAR);
-//        Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("5"));
 
         assertEquals(new BigDecimal("200").setScale(7, RoundingMode.HALF_DOWN), botella.getPo());
@@ -71,7 +67,6 @@ public class BotellaTest {
     public void testCrearBotella5DesdeKpa() {
 
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.KPA);
-//        Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("5"));
 
         assertEquals(new BigDecimal("2").setScale(7, RoundingMode.HALF_DOWN), botella.getPo());
@@ -83,7 +78,6 @@ public class BotellaTest {
     public void testCrearBotella5DesdePsi() {
 
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.PSI);
-//        Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("5"));
 
         assertEquals(new BigDecimal("13.78952").setScale(7, RoundingMode.HALF_DOWN), botella.getPo());
@@ -95,7 +89,6 @@ public class BotellaTest {
     public void testCrearBotella10DesdeBar() {
 
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.BAR);
-        //Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("10"));
 
         assertEquals(new BigDecimal("200").setScale(7, RoundingMode.HALF_DOWN), botella.getPo());
@@ -107,7 +100,6 @@ public class BotellaTest {
     public void testCrearBotella10DesdeKpa() {
 
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.KPA);
-        //Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("10"));
 
         assertEquals(new BigDecimal("2").setScale(7, RoundingMode.HALF_DOWN), botella.getPo());
@@ -119,7 +111,6 @@ public class BotellaTest {
     public void testCrearBotella10DesdePsi() {
 
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.PSI);
-       // Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("10"));
 
         assertEquals(new BigDecimal("13.78952").setScale(7, RoundingMode.HALF_DOWN), botella.getPo());
@@ -135,7 +126,6 @@ public class BotellaTest {
     @Test
     public void testSetPresionManualBar(){
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.BAR);
-       // Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("10"));
         Presion presion1 = new Presion(new BigDecimal("7"), UnidadPresion.BAR);
         botella.setPr(presion1);
@@ -145,7 +135,6 @@ public class BotellaTest {
     @Test
     public void testSetPresionManualKpa(){
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.BAR);
-       // Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("10"));
         Presion presion1 = new Presion(new BigDecimal("7"), UnidadPresion.KPA);
         botella.setPr(presion1);
@@ -155,7 +144,6 @@ public class BotellaTest {
     @Test
     public void testSetPresionManualPsi(){
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.BAR);
-        //Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("10"));
         Presion presion1 = new Presion(new BigDecimal("7"), UnidadPresion.PSI);
         botella.setPr(presion1);
@@ -165,7 +153,6 @@ public class BotellaTest {
     @Test(expected = IllegalArgumentException.class)
     public void testSetPresionNegativa(){
         Presion presion = new Presion(new BigDecimal("200"), UnidadPresion.BAR);
-        //Bares2 bares = new Bares2(presion);
         Botella botella = new Botella(presion, new BigDecimal("10"));
         Presion presion1 = new Presion(new BigDecimal("-7"), UnidadPresion.BAR);
         botella.setPr(presion1);

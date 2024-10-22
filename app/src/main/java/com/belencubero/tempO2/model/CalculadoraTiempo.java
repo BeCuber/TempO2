@@ -3,36 +3,59 @@ package com.belencubero.tempO2.model;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Locale;
-
+/**
+ * Clase de utilidad para realizar cálculos relacionados con el tiempo de duración de una botella de oxígeno
+ * en función de su presión, volumen y flujo de salida de oxígeno.
+ */
 public class CalculadoraTiempo {
 
-    // Cálculo del tiempo total (minutos) en función de la botella y el flujo.
+    /**
+     * Calcula el tiempo total (en minutos) de duración de una botella de oxígeno en función de la diferencia
+     * entre la presión inicial y la presión residual, el volumen de oxígeno a 1 bar y el flujo de oxígeno.
+     *
+     * @param botella La {@link Botella} de la que se quiere calcular el tiempo de duración.
+     * @param flujo   El flujo de oxígeno en litros por minuto (L/min).
+     * @return El tiempo total de duración en minutos.
+     * @throws IllegalArgumentException si el flujo es menor o igual a cero.
+     */
     public static BigDecimal calcularTiempo(Botella botella, BigDecimal flujo) {
         // Fórmula: tiempo = (Pr - Po) * volumen / flujo
         if (flujo.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("El flujo debe ser mayor a cero.");
         }
-        // procesa valor flujo
         flujo = flujo.setScale(7, RoundingMode.HALF_DOWN);
-        // resta presiones
         BigDecimal diferenciaPresion = botella.getPo().subtract(botella.getPr()).setScale(7, RoundingMode.HALF_DOWN);
-        // multiplica por volumen
         BigDecimal cantidadO2 = diferenciaPresion.multiply(botella.getVol1Bar()).setScale(7, RoundingMode.HALF_DOWN);
-        // divide por el flujo
         return cantidadO2.divide(flujo, 7, RoundingMode.HALF_DOWN);
     }
 
-    // Método para obtener las horas (parte entera del tiempo total en minutos / 60).
+    /**
+     * Calcula la cantidad de horas completas de duración basándose en el tiempo total en minutos.
+     *
+     * @param tiempo El tiempo total en minutos.
+     * @return El número entero de horas.
+     */
     public static int calcularHoras(BigDecimal tiempo) {
         return tiempo.divideToIntegralValue(new BigDecimal(60)).intValue();
     }
 
-    // Método para obtener los minutos restantes (tiempo % 60).
+    /**
+     * Calcula los minutos restantes después de las horas completas basándose en el tiempo total en minutos.
+     *
+     * @param tiempo El tiempo total en minutos.
+     * @return El número entero de minutos restantes.
+     */
     public static int calcularMinutos(BigDecimal tiempo) {
         return tiempo.remainder(new BigDecimal(60)).intValue();
     }
 
-    // Método para devolver el tiempo formateado como "hh:mm".
+    /**
+     * Devuelve el tiempo total de duración formateado como una cadena en formato "hh:mm".
+     *
+     * @param botella La {@link Botella} de la que se quiere calcular el tiempo de duración.
+     * @param flujo   El flujo de oxígeno en litros por minuto (L/min).
+     * @return El tiempo formateado como "hh:mm".
+     */
     public static String formatearTiempo(Botella botella, BigDecimal flujo) {
         BigDecimal tiempoTotal = calcularTiempo(botella, flujo);
         int horas = calcularHoras(tiempoTotal);

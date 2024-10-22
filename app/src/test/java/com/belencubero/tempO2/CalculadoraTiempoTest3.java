@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 //import com.belencubero.tempO2.model.Bares;
 import com.belencubero.tempO2.model.Botella;
+import com.belencubero.tempO2.model.BotellaEstandar;
 import com.belencubero.tempO2.model.CalculadoraTiempo;
 import com.belencubero.tempO2.model.Presion;
 import com.belencubero.tempO2.model.UnidadPresion;
@@ -40,24 +41,42 @@ public class CalculadoraTiempoTest3 {
                 {new BigDecimal("2.4817518"), 5, "01:00"},
                 {new BigDecimal("2.4817518"), 10, "00:30"},
                 {new BigDecimal("2.4817518"), 15, "00:18"},
+//
+//                // CD size namdet.org
+//                {new BigDecimal("3.3576642"), 2, "03:50"},
+//                {new BigDecimal("3.3576642"), 5, "01:32"},
+//                {new BigDecimal("3.3576642"), 10, "00:46"},
+//                {new BigDecimal("3.3576642"), 15, "00:30"},
+//
+//                // E size
+//                {new BigDecimal("4.9635036"), 2, "04:24"},
+//                {new BigDecimal("4.9635036"), 5, "01:48"},
+//                {new BigDecimal("4.9635036"), 10, "00:54"},
+//                {new BigDecimal("4.9635036"), 15, "00:36"},
+//
+//                // G size
+//                {new BigDecimal("24.8175182"), 2, "38:12"},
+//                {new BigDecimal("24.8175182"), 5, "15:18"},
+//                {new BigDecimal("24.8175182"), 10, "07:36"},
+//                {new BigDecimal("24.8175182"), 15, "05:06"}
 
-                // CD size namdet.org
-                {new BigDecimal("3.3576642"), 2, "03:50"},
-                {new BigDecimal("3.3576642"), 5, "01:32"},
-                {new BigDecimal("3.3576642"), 10, "00:46"},
-                {new BigDecimal("3.3576642"), 15, "00:30"},
+                // D size PHTLS
+                {BotellaEstandar.D.getVol1Bar(), 2, "02:30"},
+                {BotellaEstandar.D.getVol1Bar(), 5, "01:00"},
+                {BotellaEstandar.D.getVol1Bar(), 10, "00:30"},
+                {BotellaEstandar.D.getVol1Bar(), 15, "00:18"},
 
-                // E size
-                {new BigDecimal("4.9635036"), 2, "04:24"},
-                {new BigDecimal("4.9635036"), 5, "01:48"},
-                {new BigDecimal("4.9635036"), 10, "00:54"},
-                {new BigDecimal("4.9635036"), 15, "00:36"},
-
-                // G size
-                {new BigDecimal("24.8175182"), 2, "38:12"},
-                {new BigDecimal("24.8175182"), 5, "15:18"},
-                {new BigDecimal("24.8175182"), 10, "07:36"},
-                {new BigDecimal("24.8175182"), 15, "05:06"}
+//                // E size
+//                {BotellaEstandar.E.getVol1Bar(), 2, "04:24"},
+//                {BotellaEstandar.E.getVol1Bar(), 5, "01:48"},
+//                {BotellaEstandar.E.getVol1Bar(), 10, "00:54"},
+//                {BotellaEstandar.E.getVol1Bar(), 15, "00:36"},
+//
+//                // G size
+//                {BotellaEstandar.G.getVol1Bar(), 2, "38:12"},
+//                {BotellaEstandar.G.getVol1Bar(), 5, "15:18"},
+//                {BotellaEstandar.G.getVol1Bar(), 10, "07:36"},
+//                {BotellaEstandar.G.getVol1Bar(), 15, "05:06"}
         });
     }
 
