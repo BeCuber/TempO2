@@ -6,7 +6,7 @@ import java.math.RoundingMode;
  * Enum que representa las diferentes unidades de medida de presión.
  * Proporciona factores de conversión de cada unidad a bar.
  */
-public enum UnidadPresion {
+public enum UnitPressure {
     /**
      * Unidad de presión en bares. El factor de conversión es 1.
      */
@@ -23,15 +23,15 @@ public enum UnidadPresion {
     /**
      * Factor de conversión de la unidad de presión correspondiente a bar.
      */
-    private final BigDecimal factorConversion;
+    private final BigDecimal conversionFactor;
 
     /**
      * Constructor para la enum {@code UnidadPresion}.
      *
-     * @param factorConversion el factor de conversión que permite convertir la unidad de presión actual a bares.
+     * @param conversionFactor el factor de conversión que permite convertir la unidad de presión actual a bares.
      */
-    UnidadPresion(BigDecimal factorConversion){
-        this.factorConversion = factorConversion.setScale(7, RoundingMode.HALF_DOWN);
+    UnitPressure(BigDecimal conversionFactor){
+        this.conversionFactor = conversionFactor.setScale(7, RoundingMode.HALF_DOWN);
     }
 
     /**
@@ -40,7 +40,7 @@ public enum UnidadPresion {
      * @param valor el valor en la unidad de presión actual que se desea convertir a bares.
      * @return el valor convertido a bares.
      */
-    public BigDecimal convertirABar(BigDecimal valor) {
-        return valor.multiply(factorConversion).setScale(7, RoundingMode.HALF_DOWN);
+    public BigDecimal convertToBar(BigDecimal valor) {
+        return valor.multiply(conversionFactor).setScale(7, RoundingMode.HALF_DOWN);
     }
 }

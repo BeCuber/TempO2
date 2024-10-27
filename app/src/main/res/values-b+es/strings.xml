@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TempO2</string>
+    <string name="textViewSize">Selecciona el tamaño de la cylinder:</string>
+    <string name="textViewFlow">Selecciona velocidad de flujo (L/min):</string>
+    <string name="textViewTime">Quedan (hh) horas y (mm) minutos.</string>
+</resources>

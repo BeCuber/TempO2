@@ -1,13 +1,13 @@
-package com.belencubero.tempO2;
+package com.belencubero.tempO2.testModel;
 
 import static org.junit.Assert.assertEquals;
 
 //import com.belencubero.tempO2.model.Bares;
-import com.belencubero.tempO2.model.Botella;
-import com.belencubero.tempO2.model.BotellaEstandar;
-import com.belencubero.tempO2.model.CalculadoraTiempo;
-import com.belencubero.tempO2.model.Presion;
-import com.belencubero.tempO2.model.UnidadPresion;
+import com.belencubero.tempO2.model.Cylinder;
+import com.belencubero.tempO2.model.CylinderSystemAmerican;
+import com.belencubero.tempO2.model.TimeCalculator;
+import com.belencubero.tempO2.model.Pressure;
+import com.belencubero.tempO2.model.UnitPressure;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,14 +18,14 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class CalculadoraTiempoTest3 {
+public class TimeCalculatorTest3 {
 
     private final BigDecimal volumen;
     private final int flujo;
     private final String tiempoEsperado;
 
     // Constructor que recibe los parámetros
-    public CalculadoraTiempoTest3(BigDecimal volumen, int flujo, String tiempoEsperado) {
+    public TimeCalculatorTest3(BigDecimal volumen, int flujo, String tiempoEsperado) {
         this.volumen = volumen;
         this.flujo = flujo;
         this.tiempoEsperado = tiempoEsperado;
@@ -61,10 +61,10 @@ public class CalculadoraTiempoTest3 {
 //                {new BigDecimal("24.8175182"), 15, "05:06"}
 
                 // D size PHTLS
-                {BotellaEstandar.D.getVol1Bar(), 2, "02:30"},
-                {BotellaEstandar.D.getVol1Bar(), 5, "01:00"},
-                {BotellaEstandar.D.getVol1Bar(), 10, "00:30"},
-                {BotellaEstandar.D.getVol1Bar(), 15, "00:18"},
+                {CylinderSystemAmerican.D.getVolumen(), 2, "02:30"},
+                {CylinderSystemAmerican.D.getVolumen(), 5, "01:00"},
+                {CylinderSystemAmerican.D.getVolumen(), 10, "00:30"},
+                {CylinderSystemAmerican.D.getVolumen(), 15, "00:18"},
 
 //                // E size
 //                {BotellaEstandar.E.getVol1Bar(), 2, "04:24"},
@@ -83,16 +83,16 @@ public class CalculadoraTiempoTest3 {
     @Test
     public void testFormatoTiempoParametrizado() {
         // Presión constante de 2100 psi
-        Presion presion = new Presion(new BigDecimal(2100), UnidadPresion.PSI);
+        Pressure pressure = new Pressure(new BigDecimal(2100), UnitPressure.PSI);
 
         // Crear la Botella2 con el volumen correspondiente
-        Botella botella = new Botella(presion, volumen);
+        Cylinder cylinder = new Cylinder(pressure, volumen);
 
         // Convertir el flujo a BigDecimal
         BigDecimal flujoBD = new BigDecimal(flujo);
 
         // Obtener el tiempo formateado
-        String tiempoCalculado = CalculadoraTiempo.formatearTiempo(botella, flujoBD);
+        String tiempoCalculado = TimeCalculator.formatTime(cylinder, flujoBD);
 
         // Verificar que el tiempo calculado coincide con el esperado
         assertEquals(tiempoEsperado, tiempoCalculado);

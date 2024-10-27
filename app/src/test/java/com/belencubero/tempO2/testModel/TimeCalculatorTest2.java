@@ -1,12 +1,12 @@
-package com.belencubero.tempO2;
+package com.belencubero.tempO2.testModel;
 
 import static org.junit.Assert.assertEquals;
 
 //import com.belencubero.tempO2.model.Bares2;
-import com.belencubero.tempO2.model.Botella;
-import com.belencubero.tempO2.model.CalculadoraTiempo;
-import com.belencubero.tempO2.model.Presion;
-import com.belencubero.tempO2.model.UnidadPresion;
+import com.belencubero.tempO2.model.Cylinder;
+import com.belencubero.tempO2.model.TimeCalculator;
+import com.belencubero.tempO2.model.Pressure;
+import com.belencubero.tempO2.model.UnitPressure;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class CalculadoraTiempoTest2 {
+public class TimeCalculatorTest2 {
 
     private final int bares;
     private final int flujo;
@@ -25,7 +25,7 @@ public class CalculadoraTiempoTest2 {
     private final String tiempoEsperado;
 
     // Constructor para recibir los parámetros
-    public CalculadoraTiempoTest2(int bares, int flujo, int volumen, String tiempoEsperado) {
+    public TimeCalculatorTest2(int bares, int flujo, int volumen, String tiempoEsperado) {
         this.bares = bares;
         this.flujo = flujo;
         this.volumen = volumen;
@@ -77,14 +77,14 @@ public class CalculadoraTiempoTest2 {
     @Test
     public void testFormatoTiempoParametrizado() {
         // Crear objeto Botella
-        Presion presion = new Presion(new BigDecimal(bares), UnidadPresion.BAR);
-        Botella botella = new Botella(presion, new BigDecimal(volumen));
+        Pressure pressure = new Pressure(new BigDecimal(bares), UnitPressure.BAR);
+        Cylinder cylinder = new Cylinder(pressure, new BigDecimal(volumen));
 
         // Convertir flujo a BigDecimal
         BigDecimal flujoBD = new BigDecimal(flujo);
 
         // Obtener el tiempo formateado
-        String tiempoCalculado = CalculadoraTiempo.formatearTiempo(botella, flujoBD);
+        String tiempoCalculado = TimeCalculator.formatTime(cylinder, flujoBD);
 
         // Verificar que el tiempo calculado coincide con el esperado
         assertEquals(tiempoEsperado, tiempoCalculado);

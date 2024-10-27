@@ -2,30 +2,31 @@ package com.belencubero.tempO2.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import android.util.Log;
 /**
  * Clase que representa una presión con un valor y una unidad específica.
  * Permite realizar validaciones sobre el valor de la presión y convertir la presión a bares.
  */
-public class Presion {
+public class Pressure {
     /**
      * El valor numérico de la presión.
      */
-    private BigDecimal valor;
+    private BigDecimal value;
     /**
      * La unidad en la que se mide la presión.
      */
-    private UnidadPresion unidad;
+    private UnitPressure unit;
 
     /**
      * Constructor que crea un objeto {@code Presion} con un valor y una unidad específica.
      *
-     * @param valor  el valor de la presión (debe ser un valor no negativo).
-     * @param unidad la unidad de medida de la presión.
+     * @param value  el valor de la presión (debe ser un valor no negativo).
+     * @param unit la unidad de medida de la presión.
      * @throws IllegalArgumentException si el valor de la presión es negativo.
      */
-    public Presion(BigDecimal valor, UnidadPresion unidad){
-        this.unidad = unidad;
-        setValor(valor);
+    public Pressure(BigDecimal value, UnitPressure unit){
+        this.unit = unit;
+        setValue(value);
     }
 
     /**
@@ -33,21 +34,21 @@ public class Presion {
      *
      * @return el valor actual de la presión.
      */
-    public BigDecimal getValor() {
-        return valor;
+    public BigDecimal getValue() {
+        return value;
     }
 
     /**
      * Establece el valor de la presión.
      *
-     * @param valor el nuevo valor de la presión (debe ser un valor no negativo).
+     * @param value el nuevo valor de la presión (debe ser un valor no negativo).
      * @throws IllegalArgumentException si el valor de la presión es negativo.
      */
-    public void setValor(BigDecimal valor) {
-        if (valor.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("El valor de presión no puede ser negativo.");
+    public void setValue(BigDecimal value) {
+        if (value.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("The pressure value cannot be negative.");
         }
-        this.valor = valor.setScale(7, RoundingMode.HALF_DOWN);
+        this.value = value.setScale(7, RoundingMode.HALF_DOWN);
     }
 
     /**
@@ -55,17 +56,17 @@ public class Presion {
      *
      * @return la unidad de presión actual.
      */
-    public UnidadPresion getUnidad() {
-        return unidad;
+    public UnitPressure getUnit() {
+        return unit;
     }
 
     /**
      * Establece la unidad de medida de la presión.
      *
-     * @param unidad la nueva unidad de presión.
+     * @param unit la nueva unidad de presión.
      */
-    public void setUnidad(UnidadPresion unidad) {
-        this.unidad = unidad;
+    public void setUnit(UnitPressure unit) {
+        this.unit = unit;
     }
 
     /**
@@ -73,7 +74,7 @@ public class Presion {
      *
      * @return el valor de la presión convertido a bares.
      */
-    public BigDecimal convertirABar() {
-        return unidad.convertirABar(valor);
+    public BigDecimal convertToBar() {
+        return unit.convertToBar(value);
     }
 }

@@ -7,7 +7,7 @@ import java.math.RoundingMode;
  * de gas a 1 bar de presión (vol1Bar). También incluye la presión residual (pr) de la botella,
  * que se calcula automáticamente en función del volumen.
  */
-public class Botella {
+public class Cylinder {
     /**
      * Presión inicial de la botella, en bares.
      */
@@ -26,12 +26,12 @@ public class Botella {
      * Constructor de la clase {@code Botella} que crea una botella con una presión inicial
      * y un volumen de gas a 1 bar.
      *
-     * @param po      La presión inicial de la botella, en la unidad {@link Presion}.
+     * @param po      La presión inicial de la botella, en la unidad {@link Pressure}.
      * @param vol1Bar El volumen de gas disponible a 1 bar, en litros.
      * @throws IllegalArgumentException si el volumen es menor o igual a cero.
      */
-    public Botella(Presion po, BigDecimal vol1Bar) {
-        this.po = po.convertirABar();
+    public Cylinder(Pressure po, BigDecimal vol1Bar) {
+        this.po = po.convertToBar();
         setVol1Bar(vol1Bar);
         setPr();
     }
@@ -46,13 +46,13 @@ public class Botella {
     }
 
     /**
-     * Establece la presión inicial de la botella en función de un objeto {@link Presion}.
+     * Establece la presión inicial de la botella en función de un objeto {@link Pressure}.
      * Convierte el valor a bares automáticamente.
      *
-     * @param po la presión inicial en la unidad {@link Presion}.
+     * @param po la presión inicial en la unidad {@link Pressure}.
      */
-    public void setPo(Presion po) {
-        this.po = po.convertirABar();
+    public void setPo(Pressure po) {
+        this.po = po.convertToBar();
     }
 
     /**
@@ -101,13 +101,13 @@ public class Botella {
     /**
      * Establece manualmente la presión residual de la botella, verificando que no sea mayor que la presión inicial.
      *
-     * @param pr la presión residual en la unidad {@link Presion}.
+     * @param pr la presión residual en la unidad {@link Pressure}.
      * @throws IllegalArgumentException si la presión residual es mayor o igual que la presión inicial.
      */
-    public void setPr(Presion pr) {
-        if ((pr.convertirABar()).compareTo(this.getPo()) >= 0){
+    public void setPr(Pressure pr) {
+        if ((pr.convertToBar()).compareTo(this.getPo()) >= 0){
             throw new IllegalArgumentException ("La presión actual no debería ser inferior a la presión residual.");
         }
-        this.pr = pr.convertirABar();
+        this.pr = pr.convertToBar();
     }
 }
