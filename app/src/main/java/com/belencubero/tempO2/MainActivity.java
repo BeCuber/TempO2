@@ -15,13 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.belencubero.tempO2.controller.SpinnerController;
+
 /* MainActivyty -> clase ppal para la actividad. Una actividad en Android representa una única pantalla en la app
 * AppCompatActivity -> clase que proporciona compatibilidad con versiones anteriores de Andoir (usa biblioteca Android X)*/
 public class MainActivity extends AppCompatActivity {
 
-    private SeekBar seekBarPresion;
-    private EditText editTextPresion;
-    private Spinner spinnerUnidadPresion;
+    private SeekBar seekBarPressure;
+    private EditText editTextPressure;
+    private Spinner spinnerUnitPressure;
     private TextView tViewPressMax;
 
     @Override
@@ -47,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Inicializa seekBar y editText - Presion
-        seekBarPresion = findViewById(R.id.seekBarPressure);
-        editTextPresion = findViewById(R.id.inputPressure);
-        spinnerUnidadPresion = findViewById(R.id.spinnerUnitPressure);
+        seekBarPressure = findViewById(R.id.seekBarPressure);
+        editTextPressure = findViewById(R.id.inputPressure);
+        spinnerUnitPressure = findViewById(R.id.spinnerUnitPressure);
         tViewPressMax = findViewById(R.id.tViewPressMax);
         // Llama al listener manualmente al inicio
         // Esto asegura que tViewPressMax y seekBarPresion se actualicen con la opción inicial del Spinner
@@ -58,12 +61,12 @@ public class MainActivity extends AppCompatActivity {
 //                .onItemSelected(spinnerUnidadPresion, null, initialPosition, spinnerUnidadPresion.getItemIdAtPosition(initialPosition));
 
         //Listener para el seekbar
-        seekBarPresion.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBarPressure.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //Actualiza el editText cuando el Seekbar cambia
                 if (fromUser) {
-                    editTextPresion.setText(String.valueOf(progress));
+                    editTextPressure.setText(String.valueOf(progress));
                 }
             }
 
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Listener para el EditText
-        editTextPresion.addTextChangedListener(new TextWatcher() {
+        editTextPressure.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // No se necesita implementar
@@ -89,12 +92,12 @@ public class MainActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
                     int value = Integer.parseInt(s.toString());
-                    if (value >= 0 && value <= seekBarPresion.getMax()) {
-                        seekBarPresion.setProgress(value);
+                    if (value >= 0 && value <= seekBarPressure.getMax()) {
+                        seekBarPressure.setProgress(value);
                     }
                 } catch (NumberFormatException e) {
                     // Manejar el caso cuando el texto no es un número válido
-                    editTextPresion.setError("Please enter a valid number");
+                    editTextPressure.setError("Please enter a valid number");
                 }
             }
 
@@ -105,26 +108,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Listener para el spinner UdadPresion
-        spinnerUnidadPresion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerUnitPressure.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String unidadSeleccionada = parent.getItemAtPosition(position).toString();
                 // Reinicia el valor de EditText y SeekBar a 0
-                editTextPresion.setText("0");
-                seekBarPresion.setProgress(0);
+                editTextPressure.setText("0");
+                seekBarPressure.setProgress(0);
 
                 switch (unidadSeleccionada) {
                     case "BAR":
                         tViewPressMax.setText("315");
-                        seekBarPresion.setMax(315);
+                        seekBarPressure.setMax(315);
                         break;
                     case "KPA":
                         tViewPressMax.setText("31500");
-                        seekBarPresion.setMax(31500);
+                        seekBarPressure.setMax(31500);
                         break;
                     case "PSI":
                         tViewPressMax.setText("4500");
-                        seekBarPresion.setMax(4500);
+                        seekBarPressure.setMax(4500);
                         break;
                 }
 
@@ -135,12 +138,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        SpinnerController spinner = new SpinnerController(spinnerUnitPressure, this);
+
+
         // Llama al listener manualmente al inicio
         // Esto asegura que tViewPressMax y seekBarPresion se actualicen con la opción inicial del Spinner
         // Me hará falta si consigo ponerlo como configuración (unidad por defecto preferida, por ej)
-        int initialPosition = spinnerUnidadPresion.getSelectedItemPosition();
-        spinnerUnidadPresion.getOnItemSelectedListener()
-                .onItemSelected(spinnerUnidadPresion, null, initialPosition, spinnerUnidadPresion.getItemIdAtPosition(initialPosition));
+        int initialPosition = spinnerUnitPressure.getSelectedItemPosition();
+        spinnerUnitPressure.getOnItemSelectedListener()
+                .onItemSelected(spinnerUnitPressure, null, initialPosition, spinnerUnitPressure.getItemIdAtPosition(initialPosition));
 
 
 
