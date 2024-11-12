@@ -3,13 +3,10 @@
 Este repositorio contiene ejercicios prácticos y apuntes de código para mejorar mis habilidades en el manejo de Java y estructuración de proyectos. No es un proyecto final, sino una colección de ejemplos y experimentos para aprender y practicar. **El contenido está en desarrollo y puede no estar completamente optimizado o libre de errores.**
 ## Tecnologías utilizadas
 - Java 8
+- Kotlin
+- Jetpack Compose
+- JUnit
 - Android Studio
-## Estructura del Repositorio / Repository Structure
-Cada carpeta o archivo dentro de este repositorio contiene ejercicios o ejemplos relacionados con:
--  **controller:** Vacío de momento.
--  **model:** Clases UnidadPresion, Presion, Bares, Botella y CalculadoraTiempo que se encargan del manejo de los cálculos.
--  **view:** Vacío de momento.
--  **test:** Test unitarios para funciones de lógica.
 ## Estado del Proyecto
 Este proyecto está en constante evolución, ya que sigo aprendiendo y mejorando mis habilidades. El código puede no estar completamente optimizado o terminado, y algunas partes pueden estar en desarrollo activo.
 ## Notas
@@ -29,13 +26,10 @@ Este repositorio no tiene licencia oficial ya que es únicamente un espacio para
 This repository contains practical exercises and code notes to improve my skills in Java handling and setting structure on projects. It is not a final project, but rather a collection of examples and experiments for learning and practice. **The content is under development and may not be fully optimized or error-free.**
 ## Technologies Used
 - Java 8
+- Kotlin
+- Jetpack Compose
+- JUnit
 - Android Studio
-## Repository Structure
-Each folder or file in this repository contains exercises or examples related to:
--  **controller:** Still empty.
--  **model:** Classes UnidadPresion, Presion, Bares, Botella y CalculadoraTiempo in charge of calculate handling.
--  **view:** Still empty.
--  **test:** Unit tests for logic methods.
 ## Project Status
 This project is constantly evolving as I continue learning and improving my skills. The code may not be fully optimized or finished, and some parts may be under active development.
 ## Notes

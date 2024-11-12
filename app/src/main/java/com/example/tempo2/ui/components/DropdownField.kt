@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,9 +13,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import com.example.tempo2.model.CylinderSystemAmerican
 import com.example.tempo2.model.CylinderSystemEuropean
@@ -39,20 +44,20 @@ fun DropdownField(
     var expanded by remember { mutableStateOf(false) }
 
     Box(
-        modifier = modifier
 //        modifier = modifier
-//            .fillMaxWidth()
-//            .background(
-//                color = MaterialTheme.colorScheme.surface,
-//                shape = MaterialTheme.shapes.extraSmall
-//            )
-//            .border(
-//                width = 1.dp,
-//                color = MaterialTheme.colorScheme.outline,
-//                shape = MaterialTheme.shapes.extraSmall
-//            )
-//            .clickable { expanded = true } // Hacer que el cuadro sea clickable para desplegar el menú
-//            .padding(horizontal = 16.dp, vertical = 8.dp) // Padding interno
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+                shape = MaterialTheme.shapes.extraSmall
+            )
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+                shape = MaterialTheme.shapes.extraSmall
+            )
+            .clickable { expanded = true } // Hacer que el cuadro sea clickable para desplegar el menú
+            .padding(horizontal = 16.dp, vertical = 8.dp) // Padding interno
     ) {
         // Text field or box showing selected option
 //        Text(
@@ -69,11 +74,11 @@ fun DropdownField(
             modifier = modifier
         ) {
             // Icono para indicar que es un dropdown
-            Icon(
-                painter = painterResource(id = leadingIcon),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface
-            )
+//            Icon(
+//                painter = painterResource(id = leadingIcon),
+//                contentDescription = null,
+//                tint = MaterialTheme.colorScheme.onSurface
+//            )
             // Texto que muestra la opción seleccionada
             Text(
                 text = selectedOption,
@@ -118,6 +123,66 @@ fun getCylinderOptions(): List<String> {
     return europeanOptions + americanOptions
 }
 
+/**
+ * Prepara la lista de valores para el spinner UnitPressure
+ */
 fun getUnitPressureOptions(): List<String>{
     return UnitPressure.values().map { it.name }
+}
+
+
+
+
+
+// PRUEBAS
+// fuente: https://www.youtube.com/watch?v=5h737wNN-qM&ab_channel=Destoffe
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ExposedDropdownField(
+    @DrawableRes leadingIcon: Int,
+    options: List<String>,               // Lista de opciones pasadas
+    selectedOption: String,              // Opción seleccionada actualmente
+    onOptionSelected: (String) -> Unit,
+    modifier: Modifier = Modifier
+){
+
+    var isExpanded by remember { mutableStateOf(false) }
+
+//    Column (
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(horizontal = 8.dp),
+//        horizontalAlignment = Alignment.CenterHorizontally
+//    ){
+    ExposedDropdownMenuBox(
+        expanded = isExpanded,
+        onExpandedChange = { isExpanded = !isExpanded },
+        modifier = modifier
+    ) {
+        TextField(
+            modifier = Modifier.menuAnchor().then(modifier),
+            value = selectedOption,
+            onValueChange = {},
+            readOnly = true,
+            leadingIcon = { Icon(painter = painterResource(id = leadingIcon), null) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
+        )
+        // Menú desplegable
+        ExposedDropdownMenu(
+            expanded = isExpanded,
+            onDismissRequest = { isExpanded = false }
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(text = option) },
+                    onClick = {
+                        onOptionSelected(option)  // Actualiza la opción seleccionada
+                        isExpanded = false       // Cierra el menú
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                )
+            }
+        }
+    }
+//    }
 }

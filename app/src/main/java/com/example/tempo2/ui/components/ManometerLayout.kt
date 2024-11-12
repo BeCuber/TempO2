@@ -104,14 +104,12 @@ fun ManometerLayout(
                 ),
                 value = pressureValueDisplay.setScale(0, RoundingMode.HALF_UP).toPlainString(),
                 onValueChange = { newValue ->
-                    // Actualiza el ViewModel al cambiar el valor
                     viewModel.updatePressureValue(newValue) },
                 modifier = Modifier
-                    .weight(1f)  // Ocupa la mitad del Row
-                    .fillMaxWidth() // Asegura que llene el ancho permitido por el weight
+                    .weight(0.5f)  // Ocupa la mitad del Row
                     .padding(end = 8.dp) // Espacio entre los elementos
             )
-            DropdownField( // poner este elemento por aquí es pa probar, la cosa era tenerlo en el row de mas abajo
+            ExposedDropdownField( // poner este elemento por aquí es pa probar, la cosa era tenerlo en el row de mas abajo
                 leadingIcon = R.drawable.ruler,
                 options = unitPressureOptions,
                 selectedOption = selectedUnitPressureName,
@@ -120,21 +118,12 @@ fun ManometerLayout(
                     selectedUnitPressureEnum = getUnitPressureEnum(option)
                     viewModel.updateUnitPressure(selectedUnitPressureEnum)},
                 modifier = Modifier
-                    .weight(1f)  // Ocupa la otra mitad del Row
-                    .fillMaxWidth() // Asegura que llene el ancho permitido por el weight
-                    .padding(start = 8.dp) // Espacio entre los elementos
+                    .weight(0.5f)  // Ocupa la otra mitad del Row
+//                    .fillMaxWidth() // Asegura que llene el ancho permitido por el weight
+//                    .padding(start = 8.dp) // Espacio entre los elementos
             )
         }
 
-//        DropdownField(
-//            options = cylinderOptions,
-//            selectedOption = selectedCylinderName,
-//            onOptionSelected = { option ->
-//                selectedCylinderName = option
-//                selectedCylinderEnum = getCylinderEnum(option) // Actualiza el enum aquí directamente
-//                viewModel.updateCylinderVolume(selectedCylinderEnum)}, // esta linea es fumada mia (y he tenido que cambiar a Any? el tipo de la funcion)
-//            modifier = Modifier.padding(vertical = 16.dp)
-//        )
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -149,11 +138,10 @@ fun ManometerLayout(
                 value = flowSpeedInput,
                 onValueChange = { flowSpeedInput = it },
                 modifier = Modifier
-                    .weight(1f)  // Ocupa la mitad del Row
-                    .fillMaxWidth() // Asegura que llene el ancho permitido por el weight
+                    .weight(0.5f)  // Ocupa la mitad del Row
                     .padding(end = 8.dp) // Espacio entre los elementos
             )
-            DropdownField(
+            ExposedDropdownField(
                 leadingIcon = R.drawable.cylinder,
                 options = cylinderOptions,
                 selectedOption = selectedCylinderName,
@@ -162,9 +150,9 @@ fun ManometerLayout(
                     selectedCylinderEnum = getCylinderEnum(option) // Actualiza el enum aquí directamente
                     viewModel.updateCylinderVolume(selectedCylinderEnum)}, // esta linea es fumada mia (y he tenido que cambiar a Any? el tipo de la funcion)
                 modifier = Modifier
-                    .weight(1f)  // Ocupa la otra mitad del Row
-                    .fillMaxWidth() // Asegura que llene el ancho permitido por el weight
-                    .padding(start = 8.dp) // Espacio entre los elementos
+                    .weight(0.5f)  // Ocupa la otra mitad del Row
+//                    .fillMaxWidth() // Asegura que llene el ancho permitido por el weight
+//                    .padding(start = 8.dp) // Espacio entre los elementos
             )
         }
     // COMENTARIO TEMPORAL, TODO ESTE ELEMENTO ES IMPORTANTE

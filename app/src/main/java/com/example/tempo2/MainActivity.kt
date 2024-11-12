@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -13,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.tempo2.ui.components.ManometerLayout
 import com.example.tempo2.ui.theme.TempO2Theme
-import java.text.NumberFormat
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +48,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ManometerLayoutPreview() {
     TempO2Theme {
-        ManometerLayout()
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            ManometerLayout()
+        }
     }
 }

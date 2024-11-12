@@ -4,5 +4,5 @@
     <string name="flow_speed">Flow speed</string>
     <string name="round_up_tip">Round up tip?</string>
     <string name="cont_descrp_manometer">Manometer</string>
-    <string name="observed_pressure">Pressure value</string>
+    <string name="observed_pressure">Pressure</string>
 </resources>
