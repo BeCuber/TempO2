@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">TempO2</string>
-    <string name="textViewSize">Select size of the cylinder:</string>
-    <string name="textViewFlow">Select administration speed (L/min):</string>
-    <string name="textViewTime">There are (hh) hours and (mm) minutes left.</string>
+    <string name="remaining_time">Time: %s</string>
+    <string name="flow_speed">Flow speed</string>
+    <string name="round_up_tip">Round up tip?</string>
+    <string name="cont_descrp_manometer">Manometer</string>
+    <string name="observed_pressure">Pressure value</string>
 </resources>
