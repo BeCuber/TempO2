@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
@@ -148,12 +149,6 @@ fun ExposedDropdownField(
 
     var isExpanded by remember { mutableStateOf(false) }
 
-//    Column (
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(horizontal = 8.dp),
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ){
     ExposedDropdownMenuBox(
         expanded = isExpanded,
         onExpandedChange = { isExpanded = !isExpanded },
@@ -164,7 +159,12 @@ fun ExposedDropdownField(
             value = selectedOption,
             onValueChange = {},
             readOnly = true,
-            leadingIcon = { Icon(painter = painterResource(id = leadingIcon), null) },
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = leadingIcon),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                ) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
         )
         // Menú desplegable
@@ -184,5 +184,4 @@ fun ExposedDropdownField(
             }
         }
     }
-//    }
 }

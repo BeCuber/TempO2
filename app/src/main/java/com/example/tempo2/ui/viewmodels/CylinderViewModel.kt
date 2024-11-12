@@ -97,16 +97,16 @@ class CylinderViewModel : ViewModel() {
             else -> BigDecimal.ZERO // Valor por defecto, o lanza un error
         }
 //  Logs para comprobar el valor del volumen
-//        Log.d("CylinderViewModelDebug", "CylinderVolumeBefore: ${cylinder.vol1Bar}")
-//        Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
-//        Log.d("CylinderViewModelDebug", "CylinderPrBefore: ${cylinder.pr}")
+        Log.d("CylinderViewModelDebug", "CylinderVolumeBefore: ${cylinder.vol1Bar}")
+        Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
+        Log.d("CylinderViewModelDebug", "CylinderPrBefore: ${cylinder.pr}")
 
         cylinder.setVol1Bar(newVolume)
 
 //  Logs para comprobar el valor del volumen
-//        Log.d("CylinderViewModelDebug", "selectedCylinderEnum: $selectedCylinderEnum")
-//        Log.d("CylinderViewModelDebug", "vol1Bar value: $newVolume")
-//        Log.d("CylinderViewModelDebug", "CylinderVolumeAfter: ${cylinder.vol1Bar}")
+        Log.d("CylinderViewModelDebug", "selectedCylinderEnum: $selectedCylinderEnum")
+        Log.d("CylinderViewModelDebug", "vol1Bar value: $newVolume")
+        Log.d("CylinderViewModelDebug", "CylinderVolumeAfter: ${cylinder.vol1Bar}")
     }
 
 }

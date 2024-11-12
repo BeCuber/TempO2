@@ -4,7 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -80,20 +82,11 @@ fun ManometerLayout(
             contentDescription = stringResource(R.string.cont_descrp_manometer),
             modifier = Modifier.padding(top = 50.dp)
         )
-
-//        DropdownField( // poner este elemento por aquí es pa probar, la cosa era tenerlo en el row de mas abajo
-//            options = unitPressureOptions,
-//            selectedOption = selectedUnitPressureName,
-//            onOptionSelected = { option ->
-//                selectedUnitPressureName = option
-//                selectedUnitPressureEnum = getUnitPressureEnum(option)
-//                viewModel.updateUnitPressure(selectedUnitPressureEnum)},
-//            modifier = Modifier.padding(vertical = 16.dp)
-//        )
-
+        Spacer(modifier = Modifier.height(24.dp)) // Espacio entre la imagen y la primera fila
         Row (
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp) // Espacio entre los componentes de la fila
         ) {
             EditNumberField(
                 label = R.string.observed_pressure,
@@ -123,10 +116,11 @@ fun ManometerLayout(
 //                    .padding(start = 8.dp) // Espacio entre los elementos
             )
         }
-
+        Spacer(modifier = Modifier.height(9.dp)) // Espacio entre la imagen y la primera fila
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp) // Espacio entre los componentes de la fila
         ) {
             EditNumberField(
                 label = R.string.flow_speed,
