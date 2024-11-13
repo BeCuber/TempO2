@@ -18,15 +18,15 @@ class CylinderViewModel : ViewModel() {
 
     // Los valores iniciales para Pressure y Cylinder
     var unitPressure by mutableStateOf(UnitPressure.BAR)
-//    var valuePressure = BigDecimal("200")
 
-//    var pressureValueDisplay by mutableStateOf("200")
+    // Permite almacenar un valor que puede ser observado por otros componentes y actualizado cuando sea necesario. La inicialización en BigDecimal("200") establece un valor predeterminado para cuando la aplicación inicia.
     private val _pressureValueDisplay = MutableLiveData(BigDecimal("200"))
+    // expone _pressureValueDisplay como LiveData, no como MutableLiveData. Esto asegura que otros componentes (como las vistas) solo puedan observar pressureValueDisplay, pero no modificar su valor directamente, manteniendo la encapsulación en el ViewModel
     val pressureValueDisplay: LiveData<BigDecimal> = _pressureValueDisplay
 
     private var pressure = Pressure(BigDecimal("200"), unitPressure)
 
-    var volume by mutableStateOf(BigDecimal.ONE)
+    var volume by mutableStateOf(BigDecimal("2"))
 
     val cylinder = Cylinder(pressure, volume)
 
@@ -34,17 +34,34 @@ class CylinderViewModel : ViewModel() {
     /**
      * Actualiza `pressureValueDisplay` con el nuevo valor ingresado por el usuario.
      */
-    fun updatePressureValue(newValue: String) {
-        // Solo actualiza si el valor cambia
-        val parsedValue = newValue.toBigDecimalOrNull() ?: BigDecimal.ZERO
-        _pressureValueDisplay.value = parsedValue
-    }
+    fun updatePressureValue(newPressure: String) {
+        // Convertimos a BigDecimal si es posible, de lo contrario no actualizamos
+        newPressure.toBigDecimalOrNull()?.let {
+            _pressureValueDisplay.value = it
+        }
+//  Logs para comprobar el valor de la unidad en objetos pressure y cylinder
+        Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
+        Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
+        Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
+        Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
+        // Solo actualizamos `pressure` y `cylinder` si `_pressureValueDisplay.value` no es nulo
+        _pressureValueDisplay.value?.let {
+            pressure.setValue(it)
+            cylinder.setPo(pressure)
+        }
+        //  Logs para comprobar el valor de la unidad en objetos pressure y cylinder
+        Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
+        Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
+        Log.d("CylinderViewModelDebug", "PressureUnitAfter: ${pressure.unit}")
+        Log.d("CylinderViewModelDebug", "CylinderPoAfter: ${cylinder.po}")
 
+    }
 
     // Actualizar unidad de presion
     fun updateUnitPressure(selectedUnitPressureEnum: UnitPressure?) {
 
 //  Logs para comprobar el valor de la unidad en objetos pressure y cylinder
+        Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
         Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
         Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
@@ -83,7 +100,7 @@ class CylinderViewModel : ViewModel() {
         _pressureValueDisplay.value = updatedValuePressure
 
 //  Logs para comprobar el valor de la unidad en objetos pressure y cylinder
-        Log.d("CylinderViewModelDebug", "PressureValueAfterUpdate: $pressureValueDisplay")
+        Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
         Log.d("CylinderViewModelDebug", "PressureUnitAfter: ${pressure.unit}")
         Log.d("CylinderViewModelDebug", "CylinderPoAfter: ${cylinder.po}")

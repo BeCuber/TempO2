@@ -13,6 +13,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.tempo2.ui.components.ManometerLayout
 import com.example.tempo2.ui.theme.TempO2Theme
 
+
+/** TODO:
+ * - Crear objeto botella con 2L, 200 bar.
+ * - Leer lo último hablado con chatGPT. ¿No debería hacerse grande la etiqueta del edittext cuando no hay contenido?
+ * - Crear rangos válidos a introducir. Impedir que se escriba algo distinto de número
+ * - Manjear esos rangos desde controlador
+ * - contentInfo de los icon en el xml strings
+ * -
+ * - Aguja interactuable
+ * - SQLite ¿Hace falta sistema de herencia?
+ *
+ * - Si quito BigDecimal 200 de manometerlayout, tengo que manejar el redondeo de otra forma
+ *
+ *
+ * */
+
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -55,3 +73,4 @@ fun ManometerLayoutPreview() {
         }
     }
 }
+

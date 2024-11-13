@@ -93,7 +93,7 @@ fun ManometerLayout(
                 leadingIcon = R.drawable.readiness,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Done
                 ),
                 value = pressureValueDisplay.setScale(0, RoundingMode.HALF_UP).toPlainString(),
                 onValueChange = { newValue ->
@@ -102,7 +102,7 @@ fun ManometerLayout(
                     .weight(0.5f)  // Ocupa la mitad del Row
                     .padding(end = 8.dp) // Espacio entre los elementos
             )
-            ExposedDropdownField( // poner este elemento por aquí es pa probar, la cosa era tenerlo en el row de mas abajo
+            ExposedDropdownField(
                 leadingIcon = R.drawable.ruler,
                 options = unitPressureOptions,
                 selectedOption = selectedUnitPressureName,
@@ -112,8 +112,6 @@ fun ManometerLayout(
                     viewModel.updateUnitPressure(selectedUnitPressureEnum)},
                 modifier = Modifier
                     .weight(0.5f)  // Ocupa la otra mitad del Row
-//                    .fillMaxWidth() // Asegura que llene el ancho permitido por el weight
-//                    .padding(start = 8.dp) // Espacio entre los elementos
             )
         }
         Spacer(modifier = Modifier.height(9.dp)) // Espacio entre la imagen y la primera fila
