@@ -11,43 +11,64 @@ import androidx.lifecycle.MutableLiveData
 import com.example.tempo2.model.CylinderSystemAmerican
 import com.example.tempo2.model.CylinderSystemEuropean
 import com.example.tempo2.model.Pressure
+import com.example.tempo2.model.TimeCalculator
 import com.example.tempo2.model.UnitPressure
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 class CylinderViewModel : ViewModel() {
 
+
+
+//    // Permite almacenar un valor que puede ser observado por otros componentes y actualizado cuando sea necesario. La inicialización en BigDecimal("200") establece un valor predeterminado para cuando la aplicación inicia.
+//    private val _pressureValueDisplay = MutableLiveData(BigDecimal("200"))
+//    // expone _pressureValueDisplay como LiveData, no como MutableLiveData. Esto asegura que otros componentes (como las vistas) solo puedan observar pressureValueDisplay, pero no modificar su valor directamente, manteniendo la encapsulación en el ViewModel
+//    val pressureValueDisplay: LiveData<BigDecimal> = _pressureValueDisplay
+
+    // DESDE... PRUEBAS 14_11_24 intento de hacer observable el valor de los edittext como String y pasarlo a BigDecimal en viewmodel
+
+    private val _pressureValueDisplay = MutableLiveData("200")
+    val pressureValueDisplay: LiveData<String> = _pressureValueDisplay
+
+    private val _flowSpeedInput = MutableLiveData("15") // Inicia en 15 como en el layout
+    val flowSpeedInput: LiveData<String> = _flowSpeedInput
+
+    private val _remainingTime = MutableLiveData("00:00") // Valor inicial de tiempo
+    val remainingTime: LiveData<String> = _remainingTime
+
+
+    // HASTA... PRUEBAS 14_11_24
+
     // Los valores iniciales para Pressure y Cylinder
     var unitPressure by mutableStateOf(UnitPressure.BAR)
-
-    // Permite almacenar un valor que puede ser observado por otros componentes y actualizado cuando sea necesario. La inicialización en BigDecimal("200") establece un valor predeterminado para cuando la aplicación inicia.
-    private val _pressureValueDisplay = MutableLiveData(BigDecimal("200"))
-    // expone _pressureValueDisplay como LiveData, no como MutableLiveData. Esto asegura que otros componentes (como las vistas) solo puedan observar pressureValueDisplay, pero no modificar su valor directamente, manteniendo la encapsulación en el ViewModel
-    val pressureValueDisplay: LiveData<BigDecimal> = _pressureValueDisplay
-
-    private var pressure = Pressure(BigDecimal("200"), unitPressure)
-
     var volume by mutableStateOf(BigDecimal("2"))
 
-    val cylinder = Cylinder(pressure, volume)
+//    private var pressure = Pressure(BigDecimal("200"), unitPressure)
+//    val cylinder = Cylinder(pressure, volume)
+    private val pressure = Pressure(BigDecimal("200"), unitPressure)
+    private val cylinder = Cylinder(pressure, volume)
 
 
     /**
      * Actualiza `pressureValueDisplay` con el nuevo valor ingresado por el usuario.
      */
     fun updatePressureValue(newPressure: String) {
-        // Convertimos a BigDecimal si es posible, de lo contrario no actualizamos
-        newPressure.toBigDecimalOrNull()?.let {
-            _pressureValueDisplay.value = it
-        }
-        Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
-        Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
-        Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
-        Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
-        // Solo actualizamos `pressure` y `cylinder` si `_pressureValueDisplay.value` no es nulo
-        _pressureValueDisplay.value?.let {
-            pressure.setValue(it)
+        // Si el valor está en blanco, no actualizamos el valor en el ViewModel
+        val bigDecimalValue = newPressure.toBigDecimalOrNull()
+        if (bigDecimalValue != null) {
+            _pressureValueDisplay.value = newPressure
+
+            Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
+            Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
+            Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
+            Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
+
+            pressure.setValue(bigDecimalValue)
             cylinder.setPo(pressure)
+            updateTime()
         }
+        // Si no es un número válido o está fuera de rango, puedes manejarlo según la lógica que prefieras
+
         Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
         Log.d("CylinderViewModelDebug", "PressureUnitAfter: ${pressure.unit}")
@@ -95,9 +116,9 @@ class CylinderViewModel : ViewModel() {
 
         pressure.setUnit(selectedUnitPressureEnum)
         cylinder.setPo(pressure)
-
+        updateTime()
         // Actualiza el valor observable
-        _pressureValueDisplay.value = updatedValuePressure
+        _pressureValueDisplay.value = updatedValuePressure.setScale(0, RoundingMode.HALF_UP).toPlainString()
 
         Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
@@ -120,10 +141,24 @@ class CylinderViewModel : ViewModel() {
         Log.d("CylinderViewModelDebug", "CylinderPrBefore: ${cylinder.pr}")
 
         cylinder.setVol1Bar(newVolume)
-
+        updateTime()
         Log.d("CylinderViewModelDebug", "selectedCylinderEnum: $selectedCylinderEnum")
         Log.d("CylinderViewModelDebug", "vol1Bar value: $newVolume")
         Log.d("CylinderViewModelDebug", "CylinderVolumeAfter: ${cylinder.vol1Bar}")
+    }
+
+
+    // Función para actualizar el flujo
+    fun updateFlowSpeed(newFlowSpeed: String) {
+        _flowSpeedInput.value = newFlowSpeed
+        updateTime() // Recalcula el tiempo cada vez que cambia el flujo
+    }
+
+
+    // Función para actualizar el tiempo restante
+    private fun updateTime() {
+        val flowSpeed = _flowSpeedInput.value?.toBigDecimalOrNull() ?: BigDecimal.ONE // Convertir a int, o 0 si es nulo
+        _remainingTime.value = TimeCalculator.formatTime(cylinder, flowSpeed)
     }
 
 }

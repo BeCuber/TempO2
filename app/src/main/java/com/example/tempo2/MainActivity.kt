@@ -15,16 +15,17 @@ import com.example.tempo2.ui.theme.TempO2Theme
 
 
 /** TODO:
- * - Crear objeto botella con 2L, 200 bar.
- * - Leer lo último hablado con chatGPT. ¿No debería hacerse grande la etiqueta del edittext cuando no hay contenido?
+ * - Añadir animación de actualización edittext valor presion cuando cambia la unidad
+ * - Añadir animación rojo cuando rangos de valor incorrectos y que no se actualice la presión (msg a usuario sería util)
+ * - flow speed pte
+ * - texto euros
  * - Crear rangos válidos a introducir. Impedir que se escriba algo distinto de número
- * - Manjear esos rangos desde controlador
+ * - Manjear esos rangos desde ¿controlador?
  * - contentInfo de los icon en el xml strings
  * -
  * - Aguja interactuable
  * - SQLite ¿Hace falta sistema de herencia?
  *
- * - Si quito BigDecimal 200 de manometerlayout, tengo que manejar el redondeo de otra forma
  *
  *
  * */

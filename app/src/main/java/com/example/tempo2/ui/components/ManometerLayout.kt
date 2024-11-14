@@ -1,5 +1,6 @@
 package com.example.tempo2.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,7 +14,10 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -41,13 +46,24 @@ import java.math.RoundingMode
 fun ManometerLayout(
     viewModel: CylinderViewModel = viewModel()
 ) {
+    // DESDE... PRUEBAS 14_11_24 intento de hacer observable el valor de los edittext como String
+
     // EditText valueFlowSpeed
     // val flowSpeedActual = flowSpeedInput.toDoubleOrNull() ?: 0.0
-    var flowSpeedInput by remember { mutableStateOf("15") }
+    val flowSpeedInputLayout by viewModel.flowSpeedInput.observeAsState("")
+    val remainingTimeLayout by viewModel.remainingTime.observeAsState("00:00")
+    var tempFlowSpeed by remember { mutableStateOf(flowSpeedInputLayout) }
 
-    // EditText valuePressure
-    // pressureValueDisplay en el Composable reaccionará solo cuando ViewModel lo actualice
-    val pressureValueDisplayLayout by viewModel.pressureValueDisplay.observeAsState(BigDecimal("200")) // Convierte BigDecimal a String TODO ¿por que tiene que tener bigdecimal 200 si ya lo tiene viewmodel?
+
+    val pressureValueDisplayLayout by viewModel.pressureValueDisplay.observeAsState()
+    // Variable temporal para manejar la entrada de usuario en la UI
+    var tempValue by remember { mutableStateOf(pressureValueDisplayLayout ?: "") }
+    // Sincronizamos `tempValue` con `pressureValueDisplay` en el ViewModel cada vez que cambia
+    LaunchedEffect(pressureValueDisplayLayout) {
+        tempValue = pressureValueDisplayLayout ?: ""
+    }
+
+    // HASTA... PRUEBAS 14_11_24
 
     // spinner unitpressure
     val unitPressureOptions = getUnitPressureOptions()
@@ -64,6 +80,7 @@ fun ManometerLayout(
 //    Log.d("ManometerLayoutDebug", "selectedCylinderEnum: $selectedCylinderEnum")
 //    Log.d("ManometerLayoutDebug", "selectedUnitName: $selectedUnitPressureName")
 //    Log.d("ManometerLayoutDebug", "selectedUnitEnum: $selectedUnitPressureEnum")
+    Log.d("ManometerLayoutDebug", "pressureValueDisplayLayout: $pressureValueDisplayLayout")
 
     Column(
         modifier = Modifier
@@ -78,7 +95,7 @@ fun ManometerLayout(
         Image (
             painter = painterResource(R.drawable.pressure_sensor),
             contentDescription = stringResource(R.string.cont_descrp_manometer),
-            modifier = Modifier.padding(top = 50.dp)
+            modifier = Modifier.padding(top = 5.dp, bottom = 35.dp)
         )
         Spacer(modifier = Modifier.height(24.dp)) // Espacio entre la imagen y la primera fila
         Row (
@@ -86,6 +103,10 @@ fun ManometerLayout(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp) // Espacio entre los componentes de la fila
         ) {
+            /*chatGPT preguntar:
+            * Posible mejora para los casos de entrada no numérica: Podrías implementar
+            * una validación más avanzada en updatePressureValue usando regex o condiciones adicionales
+            * para filtrar caracteres y asegurar que solo se reciban números válidos.*/
             EditNumberField(
                 label = R.string.observed_pressure,
                 leadingIcon = R.drawable.readiness,
@@ -93,12 +114,19 @@ fun ManometerLayout(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
-                value = pressureValueDisplayLayout.setScale(0, RoundingMode.HALF_UP).toPlainString(),
+                // Usamos el valor temporal en la UI
+                value = tempValue,
                 onValueChange = { newValue ->
-                    viewModel.updatePressureValue(newValue) },
+                    // Actualizamos solo el valor temporal cuando el usuario edita
+                    tempValue = newValue
+                },
                 modifier = Modifier
                     .weight(0.5f)  // Ocupa la mitad del Row
-                    .padding(end = 8.dp) // Espacio entre los elementos
+                    .onFocusChanged { focusState ->
+                        if (!focusState.isFocused) {
+                            viewModel.updatePressureValue(tempValue)
+                        }
+                    }
             )
             ExposedDropdownField(
                 leadingIcon = R.drawable.ruler,
@@ -125,11 +153,17 @@ fun ManometerLayout(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
-                value = flowSpeedInput,
-                onValueChange = { flowSpeedInput = it },
+                value = tempFlowSpeed,
+                onValueChange = { newValue ->
+                    tempFlowSpeed = newValue // Actualizamos el valor temporal
+                },
                 modifier = Modifier
                     .weight(0.5f)  // Ocupa la mitad del Row
-                    .padding(end = 8.dp) // Espacio entre los elementos
+                    .onFocusChanged { focusState ->
+                        if (!focusState.isFocused) {
+                            viewModel.updateFlowSpeed(tempFlowSpeed)
+                        }
+                    }
             )
             ExposedDropdownField(
                 leadingIcon = R.drawable.cylinder,
@@ -141,15 +175,13 @@ fun ManometerLayout(
                     viewModel.updateCylinderVolume(selectedCylinderEnum)}, // esta linea es fumada mia (y he tenido que cambiar a Any? el tipo de la funcion)
                 modifier = Modifier
                     .weight(0.5f)  // Ocupa la otra mitad del Row
-//                    .fillMaxWidth() // Asegura que llene el ancho permitido por el weight
-//                    .padding(start = 8.dp) // Espacio entre los elementos
             )
         }
-    // COMENTARIO TEMPORAL, TODO ESTE ELEMENTO ES IMPORTANTE
-//        Text(
-//            text = stringResource(R.string.remaining_time, remainingTime),
-//            style = MaterialTheme.typography.displaySmall
-//        )
+        Spacer(modifier = Modifier.height(80.dp))
+        Text(
+            text = stringResource(R.string.remaining_time, remainingTimeLayout),
+            style = MaterialTheme.typography.displaySmall
+        )
     }
 }
 
