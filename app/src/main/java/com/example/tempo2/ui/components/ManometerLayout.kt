@@ -41,13 +41,13 @@ import java.math.RoundingMode
 fun ManometerLayout(
     viewModel: CylinderViewModel = viewModel()
 ) {
-
-// pressureValueDisplay en el Composable reaccionará solo cuando ViewModel lo actualice
-    val pressureValueDisplay by viewModel.pressureValueDisplay.observeAsState(BigDecimal("200")) // Convierte BigDecimal a String TODO ¿por que tiene que tener bigdecimal 200 si ya lo tiene viewmodel?
+    // EditText valueFlowSpeed
+    // val flowSpeedActual = flowSpeedInput.toDoubleOrNull() ?: 0.0
     var flowSpeedInput by remember { mutableStateOf("15") }
 
-    // edittext
-//    val flowSpeedActual = flowSpeedInput.toDoubleOrNull() ?: 0.0
+    // EditText valuePressure
+    // pressureValueDisplay en el Composable reaccionará solo cuando ViewModel lo actualice
+    val pressureValueDisplayLayout by viewModel.pressureValueDisplay.observeAsState(BigDecimal("200")) // Convierte BigDecimal a String TODO ¿por que tiene que tener bigdecimal 200 si ya lo tiene viewmodel?
 
     // spinner unitpressure
     val unitPressureOptions = getUnitPressureOptions()
@@ -59,8 +59,6 @@ fun ManometerLayout(
     var selectedCylinderName by remember { mutableStateOf(cylinderOptions[0]) }
     var selectedCylinderEnum by remember { mutableStateOf<Any?>(getCylinderEnum(selectedCylinderName)) }
 
-
-    // LOGS
 
 //    Log.d("ManometerLayoutDebug", "selectedCylinder: $selectedCylinderName")
 //    Log.d("ManometerLayoutDebug", "selectedCylinderEnum: $selectedCylinderEnum")
@@ -95,7 +93,7 @@ fun ManometerLayout(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
-                value = pressureValueDisplay.setScale(0, RoundingMode.HALF_UP).toPlainString(),
+                value = pressureValueDisplayLayout.setScale(0, RoundingMode.HALF_UP).toPlainString(),
                 onValueChange = { newValue ->
                     viewModel.updatePressureValue(newValue) },
                 modifier = Modifier

@@ -39,7 +39,6 @@ class CylinderViewModel : ViewModel() {
         newPressure.toBigDecimalOrNull()?.let {
             _pressureValueDisplay.value = it
         }
-//  Logs para comprobar el valor de la unidad en objetos pressure y cylinder
         Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
         Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
@@ -49,7 +48,6 @@ class CylinderViewModel : ViewModel() {
             pressure.setValue(it)
             cylinder.setPo(pressure)
         }
-        //  Logs para comprobar el valor de la unidad en objetos pressure y cylinder
         Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
         Log.d("CylinderViewModelDebug", "PressureUnitAfter: ${pressure.unit}")
@@ -57,10 +55,12 @@ class CylinderViewModel : ViewModel() {
 
     }
 
-    // Actualizar unidad de presion
+
+    /**
+     * Actualiza `UnitPressure` con el nuevo valor ingresado por el usuario.
+     */
     fun updateUnitPressure(selectedUnitPressureEnum: UnitPressure?) {
 
-//  Logs para comprobar el valor de la unidad en objetos pressure y cylinder
         Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
         Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
@@ -99,28 +99,28 @@ class CylinderViewModel : ViewModel() {
         // Actualiza el valor observable
         _pressureValueDisplay.value = updatedValuePressure
 
-//  Logs para comprobar el valor de la unidad en objetos pressure y cylinder
         Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
         Log.d("CylinderViewModelDebug", "PressureUnitAfter: ${pressure.unit}")
         Log.d("CylinderViewModelDebug", "CylinderPoAfter: ${cylinder.po}")
     }
 
-    // Actualizar volumen de cilindro
+
+    /**
+     * Actualiza `vol1Bar` en cylinder con el nuevo valor ingresado por el usuario.
+     */
     fun updateCylinderVolume(selectedCylinderEnum: Any?) {
         val newVolume = when (selectedCylinderEnum) {
             is CylinderSystemEuropean -> selectedCylinderEnum.vol1Bar
             is CylinderSystemAmerican -> selectedCylinderEnum.vol1Bar
             else -> BigDecimal.ZERO // Valor por defecto, o lanza un error
         }
-//  Logs para comprobar el valor del volumen
         Log.d("CylinderViewModelDebug", "CylinderVolumeBefore: ${cylinder.vol1Bar}")
         Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
         Log.d("CylinderViewModelDebug", "CylinderPrBefore: ${cylinder.pr}")
 
         cylinder.setVol1Bar(newVolume)
 
-//  Logs para comprobar el valor del volumen
         Log.d("CylinderViewModelDebug", "selectedCylinderEnum: $selectedCylinderEnum")
         Log.d("CylinderViewModelDebug", "vol1Bar value: $newVolume")
         Log.d("CylinderViewModelDebug", "CylinderVolumeAfter: ${cylinder.vol1Bar}")
