@@ -4,5 +4,9 @@
     <string name="flow_speed">Flow speed</string>
     <string name="round_up_tip">Round up tip?</string>
     <string name="cont_descrp_manometer">Manometer</string>
+    <string name="cont_descrp_manometer_icon">Manometer Icon</string>
+    <string name="cont_descrp_ruler_icon">Unit of measurement</string>
+    <string name="cont_descrp_o2_flow_icon">O2 flow speed in liters per minute</string>
+    <string name="cont_descrp_cylinder_icon">Cylinder size</string>
     <string name="observed_pressure">Pressure</string>
 </resources>

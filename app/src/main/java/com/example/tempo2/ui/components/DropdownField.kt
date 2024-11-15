@@ -1,6 +1,7 @@
 package com.example.tempo2.ui.components
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -31,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tempo2.model.UnitPressure
 
@@ -141,6 +143,7 @@ fun getUnitPressureOptions(): List<String>{
 @Composable
 fun ExposedDropdownField(
     @DrawableRes leadingIcon: Int,
+    @StringRes leadingIconDescription: Int,
     options: List<String>,               // Lista de opciones pasadas
     selectedOption: String,              // Opción seleccionada actualmente
     onOptionSelected: (String) -> Unit,
@@ -162,7 +165,7 @@ fun ExposedDropdownField(
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = leadingIcon),
-                    contentDescription = null,
+                    contentDescription = stringResource(id = leadingIconDescription),
                     modifier = Modifier.size(24.dp)
                 ) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },

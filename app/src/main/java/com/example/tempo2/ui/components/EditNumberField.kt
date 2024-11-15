@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun EditNumberField(
     @StringRes label: Int, // StringRes indica que se espera una ref a res strings
+    @StringRes leadingIconDescription: Int,
     @DrawableRes leadingIcon: Int,
     keyboardOptions: KeyboardOptions,
     value: String,
@@ -28,16 +29,23 @@ fun EditNumberField(
 ) {
     // FocusManager para gestionar el foco en este campo
     val focusManager = LocalFocusManager.current
+    // Define una expresión regular para números
+    val numericRegex = Regex("^[0-9]*$") // Acepta solo dígitos del 0 al 9
 
     TextField(
         value = value,
         leadingIcon = {
             Icon(
                 painter = painterResource(id = leadingIcon),
-                contentDescription = null,
+                contentDescription = stringResource(id = leadingIconDescription),
                 modifier = Modifier.size(24.dp)
             ) },
-        onValueChange = onValueChange,
+        onValueChange = { newValue ->
+            // Valida el nuevo valor con la regex (de uno en uno)
+            if (numericRegex.matches(newValue)) {
+                onValueChange(newValue) // Solo actualiza si el valor es válido
+            }
+        },
         label = { Text(stringResource(label)) },
         singleLine = true, //condensa el cuadrotexto en 1 linea desplazable a partir de varias lineas
         keyboardOptions = keyboardOptions,

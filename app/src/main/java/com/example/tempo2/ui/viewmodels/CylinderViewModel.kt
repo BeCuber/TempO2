@@ -18,33 +18,19 @@ import java.math.RoundingMode
 
 class CylinderViewModel : ViewModel() {
 
-
-
-//    // Permite almacenar un valor que puede ser observado por otros componentes y actualizado cuando sea necesario. La inicialización en BigDecimal("200") establece un valor predeterminado para cuando la aplicación inicia.
-//    private val _pressureValueDisplay = MutableLiveData(BigDecimal("200"))
-//    // expone _pressureValueDisplay como LiveData, no como MutableLiveData. Esto asegura que otros componentes (como las vistas) solo puedan observar pressureValueDisplay, pero no modificar su valor directamente, manteniendo la encapsulación en el ViewModel
-//    val pressureValueDisplay: LiveData<BigDecimal> = _pressureValueDisplay
-
-    // DESDE... PRUEBAS 14_11_24 intento de hacer observable el valor de los edittext como String y pasarlo a BigDecimal en viewmodel
-
     private val _pressureValueDisplay = MutableLiveData("200")
     val pressureValueDisplay: LiveData<String> = _pressureValueDisplay
 
-    private val _flowSpeedInput = MutableLiveData("15") // Inicia en 15 como en el layout
+    private val _flowSpeedInput = MutableLiveData("15") // Inicia flowspeed en 15 en el layout
     val flowSpeedInput: LiveData<String> = _flowSpeedInput
 
     private val _remainingTime = MutableLiveData("00:00") // Valor inicial de tiempo
     val remainingTime: LiveData<String> = _remainingTime
 
-
-    // HASTA... PRUEBAS 14_11_24
-
     // Los valores iniciales para Pressure y Cylinder
     var unitPressure by mutableStateOf(UnitPressure.BAR)
     var volume by mutableStateOf(BigDecimal("2"))
 
-//    private var pressure = Pressure(BigDecimal("200"), unitPressure)
-//    val cylinder = Cylinder(pressure, volume)
     private val pressure = Pressure(BigDecimal("200"), unitPressure)
     private val cylinder = Cylinder(pressure, volume)
 
@@ -78,7 +64,7 @@ class CylinderViewModel : ViewModel() {
 
 
     /**
-     * Actualiza `UnitPressure` con el nuevo valor ingresado por el usuario.
+     * Actualiza pressure, cylinder y _pressureValueDisplay(String) con el nuevo valor del DropDown UnitPressure.
      */
     fun updateUnitPressure(selectedUnitPressureEnum: UnitPressure?) {
 
@@ -87,38 +73,11 @@ class CylinderViewModel : ViewModel() {
         Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
         Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
 
-        // Conversiones
-        val updatedValuePressure = when (pressure.unit) {
-            UnitPressure.BAR -> {
-                when (selectedUnitPressureEnum) {
-                    UnitPressure.KPA -> pressure.unit.convertToKpa(pressure.value)
-                    UnitPressure.PSI -> pressure.unit.convertToPsi(pressure.value)
-                    else -> pressure.value // Si la unidad seleccionada es la misma
-                }
-            }
-            UnitPressure.KPA -> {
-                when (selectedUnitPressureEnum) {
-                    UnitPressure.BAR -> pressure.unit.convertToBar(pressure.value)
-                    UnitPressure.PSI -> pressure.unit.convertToPsi(pressure.value)
-                    else -> pressure.value
-                }
-            }
-            UnitPressure.PSI -> {
-                when (selectedUnitPressureEnum) {
-                    UnitPressure.BAR -> pressure.unit.convertToBar(pressure.value)
-                    UnitPressure.KPA -> pressure.unit.convertToKpa(pressure.value)
-                    else -> pressure.value
-                }
-            }
-        }
-
-        pressure.setValue(updatedValuePressure)
-
-        pressure.setUnit(selectedUnitPressureEnum)
+        pressure.convertTo(selectedUnitPressureEnum)
         cylinder.setPo(pressure)
         updateTime()
         // Actualiza el valor observable
-        _pressureValueDisplay.value = updatedValuePressure.setScale(0, RoundingMode.HALF_UP).toPlainString()
+        _pressureValueDisplay.value = pressure.value.setScale(0, RoundingMode.HALF_UP).toPlainString()
 
         Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
@@ -148,17 +107,39 @@ class CylinderViewModel : ViewModel() {
     }
 
 
-    // Función para actualizar el flujo
+    /**
+     * Actualiza flowSpeed.
+     */
     fun updateFlowSpeed(newFlowSpeed: String) {
         _flowSpeedInput.value = newFlowSpeed
-        updateTime() // Recalcula el tiempo cada vez que cambia el flujo
+        updateTime()
     }
 
 
-    // Función para actualizar el tiempo restante
+    /**
+     * Calcula el tiempo restante con los valores actuales de cylinder y flowSpeed
+     */
     private fun updateTime() {
         val flowSpeed = _flowSpeedInput.value?.toBigDecimalOrNull() ?: BigDecimal.ONE // Convertir a int, o 0 si es nulo
         _remainingTime.value = TimeCalculator.formatTime(cylinder, flowSpeed)
     }
 
+
+    private val minAllowedPressure = Pressure(BigDecimal("10"), UnitPressure.BAR)
+    private val maxAllowedPressure = Pressure(BigDecimal("315"), UnitPressure.BAR)
+    //full = new Pressure(new BigDecimal(""), UnitPressure.BAR); // 100%
+    //half = new Pressure(new BigDecimal(""), UnitPressure.BAR); // 50%
+    //low = new Pressure(new BigDecimal(""), UnitPressure.BAR); // 25%
+    /**
+     *
+     */
+    fun getMinAllowed(selectedUnitPressureEnum: UnitPressure?): Pressure {
+        return minAllowedPressure.convertTo(selectedUnitPressureEnum)
+    }
+    /**
+     *
+     */
+    fun getMaxAllowed(selectedUnitPressureEnum: UnitPressure?): Pressure {
+        return maxAllowedPressure.convertTo(selectedUnitPressureEnum)
+    }
 }

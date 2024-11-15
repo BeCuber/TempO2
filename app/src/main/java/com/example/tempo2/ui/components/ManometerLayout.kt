@@ -103,13 +103,14 @@ fun ManometerLayout(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp) // Espacio entre los componentes de la fila
         ) {
-            /*chatGPT preguntar:
+            /*chatGPT preguntar: TODO
             * Posible mejora para los casos de entrada no numérica: Podrías implementar
             * una validación más avanzada en updatePressureValue usando regex o condiciones adicionales
             * para filtrar caracteres y asegurar que solo se reciban números válidos.*/
             EditNumberField(
                 label = R.string.observed_pressure,
                 leadingIcon = R.drawable.readiness,
+                leadingIconDescription = R.string.cont_descrp_manometer_icon,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
@@ -130,6 +131,7 @@ fun ManometerLayout(
             )
             ExposedDropdownField(
                 leadingIcon = R.drawable.ruler,
+                leadingIconDescription = R.string.cont_descrp_ruler_icon,
                 options = unitPressureOptions,
                 selectedOption = selectedUnitPressureName,
                 onOptionSelected = { option ->
@@ -149,6 +151,7 @@ fun ManometerLayout(
             EditNumberField(
                 label = R.string.flow_speed,
                 leadingIcon = R.drawable.flow,
+                leadingIconDescription = R.string.cont_descrp_o2_flow_icon,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
@@ -167,6 +170,7 @@ fun ManometerLayout(
             )
             ExposedDropdownField(
                 leadingIcon = R.drawable.cylinder,
+                leadingIconDescription = R.string.cont_descrp_cylinder_icon,
                 options = cylinderOptions,
                 selectedOption = selectedCylinderName,
                 onOptionSelected = { option ->

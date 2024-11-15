@@ -59,4 +59,66 @@ public class Pressure {
     public BigDecimal convertToBar() {
         return unit.convertToBar(value);
     }
+
+    //EXPERIMENTOS 15 / 11
+    /**
+     * Convierte este objeto Pressure al valor y unidad seleccionados.
+     *
+     * @return el objeto Pressure con su valor convertido a la unidad seleccionada
+     */
+    public Pressure convertTo(Pressure this, UnitPressure newUnitPressure) {
+        BigDecimal updatedValuePressure;
+
+        switch (this.getUnit()) {
+            case BAR:
+                switch (newUnitPressure) {
+                    case KPA:
+                        updatedValuePressure = this.getUnit().convertToKpa(this.getValue());
+                        break;
+                    case PSI:
+                        updatedValuePressure = this.getUnit().convertToPsi(this.getValue());
+                        break;
+                    default:
+                        updatedValuePressure = this.getValue(); // Si la unidad seleccionada es la misma
+                        break;
+                }
+                break;
+
+            case KPA:
+                switch (newUnitPressure) {
+                    case BAR:
+                        updatedValuePressure = this.getUnit().convertToBar(this.getValue());
+                        break;
+                    case PSI:
+                        updatedValuePressure = this.getUnit().convertToPsi(this.getValue());
+                        break;
+                    default:
+                        updatedValuePressure = this.getValue();
+                        break;
+                }
+                break;
+
+            case PSI:
+                switch (newUnitPressure) {
+                    case BAR:
+                        updatedValuePressure = this.getUnit().convertToBar(this.getValue());
+                        break;
+                    case KPA:
+                        updatedValuePressure = this.getUnit().convertToKpa(this.getValue());
+                        break;
+                    default:
+                        updatedValuePressure = this.getValue();
+                        break;
+                }
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected unit: " + this.getUnit());
+        }
+
+        this.setValue(updatedValuePressure);
+        this.setUnit(newUnitPressure);
+
+        return this;
+    }
 }
