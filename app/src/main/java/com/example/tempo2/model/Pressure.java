@@ -66,7 +66,7 @@ public class Pressure {
      *
      * @return el objeto Pressure con su valor convertido a la unidad seleccionada
      */
-    public Pressure convertTo(Pressure this, UnitPressure newUnitPressure) {
+    public Pressure convertTo(Pressure this, UnitPressure newUnitPressure) { // TODO test para esta función
         BigDecimal updatedValuePressure;
 
         switch (this.getUnit()) {

@@ -39,28 +39,39 @@ class CylinderViewModel : ViewModel() {
      * Actualiza `pressureValueDisplay` con el nuevo valor ingresado por el usuario.
      */
     fun updatePressureValue(newPressure: String) {
-        // Si el valor está en blanco, no actualizamos el valor en el ViewModel
         val bigDecimalValue = newPressure.toBigDecimalOrNull()
+
         if (bigDecimalValue != null) {
-            _pressureValueDisplay.value = newPressure
+            // Validamos los rangos mínimos y máximos
+            val minAllowed = getMinAllowed(pressure.unit).value
+            val maxAllowed = getMaxAllowed(pressure.unit).value
 
-            Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
-            Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
-            Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
-            Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
+            if (bigDecimalValue in minAllowed..maxAllowed) {
+                _pressureValueDisplay.value = newPressure
 
-            pressure.setValue(bigDecimalValue)
-            cylinder.setPo(pressure)
-            updateTime()
+                Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
+                Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
+                Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
+                Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
+
+                pressure.setValue(bigDecimalValue)
+                cylinder.setPo(pressure)
+                updateTime()
+            } else {
+                Log.e("Validation", "Value out of range: $bigDecimalValue")
+                // Aquí puedes manejar el caso fuera de rango (mostrar un mensaje al usuario, etc.)
+            }
+        } else {
+            Log.e("Validation", "This field cannot be empty")
+            // Aquí puedes manejar el caso de entrada inválida.
         }
-        // Si no es un número válido o está fuera de rango, puedes manejarlo según la lógica que prefieras
 
         Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
         Log.d("CylinderViewModelDebug", "PressureUnitAfter: ${pressure.unit}")
         Log.d("CylinderViewModelDebug", "CylinderPoAfter: ${cylinder.po}")
-
     }
+
 
 
     /**
@@ -111,8 +122,15 @@ class CylinderViewModel : ViewModel() {
      * Actualiza flowSpeed.
      */
     fun updateFlowSpeed(newFlowSpeed: String) {
-        _flowSpeedInput.value = newFlowSpeed
-        updateTime()
+        val bigDecimalValue = newFlowSpeed.toBigDecimalOrNull()
+
+        if (bigDecimalValue != null) {
+            _flowSpeedInput.value = newFlowSpeed
+            updateTime()
+        } else {
+            Log.e("Validation", "This field cannot be empty")
+            // Aquí puedes manejar el caso de entrada inválida.
+        }
     }
 
 
