@@ -36,7 +36,8 @@ public enum CylinderSystemAmerican {
      */
     public BigDecimal getVol1Bar(){
         BigDecimal maxVol = BigDecimal.valueOf(this.maxVol);
-        BigDecimal maxPressureBar = pressure.convertToBar();
+//        BigDecimal maxPressureBar = pressure.convertToBar();
+        BigDecimal maxPressureBar = pressure.convertTo(UnitPressure.BAR); // .getValue(); // TODO CAMBIOS HOY
         return maxVol.divide(maxPressureBar, 7, RoundingMode.HALF_DOWN);
     }
 }

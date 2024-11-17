@@ -1,0 +1,75 @@
+package com.example.tempo2.ui.components
+
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Color
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import com.example.tempo2.R
+
+@Composable
+fun CardTime(
+    @StringRes label: Int, // label_text
+    @StringRes time_result: Int, // label_text
+    @StringRes leadingIconDescription: Int, // icon
+    @DrawableRes leadingIcon: Int, // icon
+    remainingTimeLayout: String
+) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.errorContainer
+//            containerColor = MaterialTheme.colorScheme.surfaceVariant
+//            containerColor = Color(android.graphics.Color.GRAY)
+        ),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = MaterialTheme.colorScheme.surfaceVariant,
+//                color = MaterialTheme.colorScheme.error,
+                shape = MaterialTheme.shapes.extraSmall
+            )
+    ) {
+        Row(modifier = Modifier.padding(top = 15.dp, start = 12.dp)) {
+            Icon(
+                painter = painterResource(id = leadingIcon),
+                contentDescription = stringResource(id = leadingIconDescription),
+                modifier = Modifier
+                    .size(32.dp)
+                    .padding(end = 8.dp)
+            )
+            Text(
+                text = stringResource(label),
+                modifier = Modifier.padding(top=4.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(9.dp))
+        Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = stringResource(time_result, remainingTimeLayout),
+            style = MaterialTheme.typography.displayLarge,
+//            color = MaterialTheme.colorScheme.outline
+            color = Color(android.graphics.Color.DKGRAY)
+        )
+        Spacer(modifier = Modifier.height(30.dp))
+    }
+}

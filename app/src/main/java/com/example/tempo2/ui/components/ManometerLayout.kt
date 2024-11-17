@@ -46,12 +46,10 @@ import java.math.RoundingMode
 fun ManometerLayout(
     viewModel: CylinderViewModel = viewModel()
 ) {
-    // DESDE... PRUEBAS 14_11_24 intento de hacer observable el valor de los edittext como String
-
     // EditText valueFlowSpeed
     // val flowSpeedActual = flowSpeedInput.toDoubleOrNull() ?: 0.0
     val flowSpeedInputLayout by viewModel.flowSpeedInput.observeAsState("")
-    val remainingTimeLayout by viewModel.remainingTime.observeAsState("00:00")
+    val remainingTimeLayout by viewModel.remainingTime.observeAsState("")
     var tempFlowSpeed by remember { mutableStateOf(flowSpeedInputLayout) }
 
 
@@ -63,17 +61,15 @@ fun ManometerLayout(
         tempValue = pressureValueDisplayLayout ?: ""
     }
 
-    // HASTA... PRUEBAS 14_11_24
-
     // spinner unitpressure
     val unitPressureOptions = getUnitPressureOptions()
     var selectedUnitPressureName by remember { mutableStateOf(unitPressureOptions[0]) }
-    var selectedUnitPressureEnum by remember { mutableStateOf<UnitPressure?>(getUnitPressureEnum(selectedUnitPressureName)) }
+    var selectedUnitPressureEnum by remember { mutableStateOf<UnitPressure?>(viewModel.getUnitPressureEnum(selectedUnitPressureName)) }
 
     // spinner volume cylinder
     val cylinderOptions = getCylinderOptions()
     var selectedCylinderName by remember { mutableStateOf(cylinderOptions[0]) }
-    var selectedCylinderEnum by remember { mutableStateOf<Any?>(getCylinderEnum(selectedCylinderName)) }
+    var selectedCylinderEnum by remember { mutableStateOf<Any?>(viewModel.getCylinderEnum(selectedCylinderName)) }
 
 
 //    Log.d("ManometerLayoutDebug", "selectedCylinder: $selectedCylinderName")
@@ -95,7 +91,7 @@ fun ManometerLayout(
         Image (
             painter = painterResource(R.drawable.pressure_sensor),
             contentDescription = stringResource(R.string.cont_descrp_manometer),
-            modifier = Modifier.padding(top = 5.dp, bottom = 35.dp)
+            modifier = Modifier.padding(bottom = 10.dp)
         )
         Spacer(modifier = Modifier.height(24.dp)) // Espacio entre la imagen y la primera fila
         Row (
@@ -136,7 +132,7 @@ fun ManometerLayout(
                 selectedOption = selectedUnitPressureName,
                 onOptionSelected = { option ->
                     selectedUnitPressureName = option
-                    selectedUnitPressureEnum = getUnitPressureEnum(option)
+                    selectedUnitPressureEnum = viewModel.getUnitPressureEnum(option)
                     viewModel.updateUnitPressure(selectedUnitPressureEnum)},
                 modifier = Modifier
                     .weight(0.5f)  // Ocupa la otra mitad del Row
@@ -175,39 +171,19 @@ fun ManometerLayout(
                 selectedOption = selectedCylinderName,
                 onOptionSelected = { option ->
                     selectedCylinderName = option
-                    selectedCylinderEnum = getCylinderEnum(option) // Actualiza el enum aquí directamente
+                    selectedCylinderEnum = viewModel.getCylinderEnum(option) // Actualiza el enum aquí directamente
                     viewModel.updateCylinderVolume(selectedCylinderEnum)}, // esta linea es fumada mia (y he tenido que cambiar a Any? el tipo de la funcion)
                 modifier = Modifier
                     .weight(0.5f)  // Ocupa la otra mitad del Row
             )
         }
-        Spacer(modifier = Modifier.height(80.dp))
-        Text(
-            text = stringResource(R.string.remaining_time, remainingTimeLayout),
-            style = MaterialTheme.typography.displaySmall
+        Spacer(modifier = Modifier.height(20.dp))
+        CardTime(
+            label = R.string.label_time,
+            time_result = R.string.remaining_time,
+            leadingIconDescription = R.string.cont_descrp_timer,
+            leadingIcon = R.drawable.timer,
+            remainingTimeLayout = remainingTimeLayout
         )
     }
 }
-
-fun getCylinderEnum(selectedCylinder: String): Any? {
-    // Buscar en CylinderSystemAmerican por su nombre
-    CylinderSystemAmerican.values().forEach { option ->
-        if (option.name == selectedCylinder) return option
-    }
-
-    // Buscar en CylinderSystemEuropean por su label
-    CylinderSystemEuropean.values().forEach { option ->
-        if (option.label == selectedCylinder) return option
-    }
-
-    return null
-}
-
-fun getUnitPressureEnum(selectedUnitPressure: String): UnitPressure?{
-    UnitPressure.values().forEach { unit ->
-        if (unit.name == selectedUnitPressure) return unit
-    }
-    return null
-}
-
-

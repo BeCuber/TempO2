@@ -26,10 +26,11 @@ public class CylinderSystemEuropeanTest {
     public void testCrearBotellaEUKPA(){
         // Verifica que se puede crear un objeto Presion con valores válidos.
         Pressure po = new Pressure(new BigDecimal("100"), UnitPressure.KPA);
+        assertEquals(UnitPressure.KPA, po.getUnit());
         Cylinder cylinder = new Cylinder(po, CylinderSystemEuropean._50L.getVol1Bar());
 
         assertEquals(new BigDecimal("1.0000000").setScale(7), cylinder.getPo());
-        assertEquals(UnitPressure.KPA, po.getUnit());
+//        assertEquals(UnitPressure.KPA, po.getUnit());
         assertEquals(new BigDecimal("50.0000000"), cylinder.getVol1Bar());
     }
 

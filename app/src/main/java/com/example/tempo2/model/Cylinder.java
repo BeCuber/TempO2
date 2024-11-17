@@ -32,7 +32,8 @@ public class Cylinder {
      * @throws IllegalArgumentException si el volumen es menor o igual a cero.
      */
     public Cylinder(Pressure po, BigDecimal vol1Bar) {
-        this.po = po.convertToBar();
+//        this.po = po.convertToBar(); // Experimento para quitar convertToBar() de pressure
+        this.po = po.convertTo(UnitPressure.BAR); //.getValue();
         setVol1Bar(vol1Bar);
         setPr();
     }
@@ -47,7 +48,8 @@ public class Cylinder {
 //        if ((po.convertToBar()).compareTo(this.getPr()) <= 0){
 //            throw new IllegalArgumentException ("La presión observada introducida no debería ser inferior a la presión residual.");
 //        } TODO manejar este caso en interfaz si no puedo manejarlo aqui
-        this.po = po.convertToBar();
+//        this.po = po.convertToBar();
+        this.po = po.convertTo(UnitPressure.BAR); //.getValue();
     }
 
 
@@ -94,9 +96,12 @@ public class Cylinder {
      * @throws IllegalArgumentException si la presión residual es mayor o igual que la presión inicial.
      */
     public void setPr(Pressure pr) {
-        if ((pr.convertToBar()).compareTo(this.getPo()) >= 0){
+        BigDecimal newPR = pr.convertTo(UnitPressure.BAR); // .getValue();
+
+        if (newPR.compareTo(this.getPo()) >= 0){
             throw new IllegalArgumentException ("La presión residual introducida no debería ser superior a la presión observada actual.");
         }
-        this.pr = pr.convertToBar();
+//        this.pr = pr.convertToBar();
+        this.pr = newPR;
     }
 }

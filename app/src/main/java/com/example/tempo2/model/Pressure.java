@@ -66,7 +66,7 @@ public class Pressure {
      *
      * @return el objeto Pressure con su valor convertido a la unidad seleccionada
      */
-    public Pressure convertTo(Pressure this, UnitPressure newUnitPressure) { // TODO test para esta función
+    public BigDecimal convertTo(UnitPressure newUnitPressure) {
         BigDecimal updatedValuePressure;
 
         switch (this.getUnit()) {
@@ -116,9 +116,9 @@ public class Pressure {
                 throw new IllegalStateException("Unexpected unit: " + this.getUnit());
         }
 
-        this.setValue(updatedValuePressure);
-        this.setUnit(newUnitPressure);
+//        this.setValue(updatedValuePressure);
+//        this.setUnit(newUnitPressure);
 
-        return this;
+        return updatedValuePressure;
     }
 }
