@@ -19,7 +19,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EditNumberField(
-    @StringRes label: Int, // StringRes indica que se espera una ref a res strings
+    @StringRes errorMessage: Int, // TODO - LAST CHANGES
+    isErrorValue: Boolean, // TODO - LAST CHANGES
+//    minValue: Int, // TODO - LAST CHANGES
+//    maxValue: Int, // TODO - LAST CHANGES
+    @StringRes label: Int,
     @StringRes leadingIconDescription: Int,
     @DrawableRes leadingIcon: Int,
     keyboardOptions: KeyboardOptions,
@@ -29,10 +33,15 @@ fun EditNumberField(
 ) {
     // FocusManager para gestionar el foco en este campo
     val focusManager = LocalFocusManager.current
-    // Define una expresión regular para números
     val numericRegex = Regex("^[0-9]*$") // Acepta solo dígitos del 0 al 9
 
     TextField(
+        supportingText = {
+            if (isErrorValue) {
+                Text(text = stringResource(id = errorMessage))
+            }
+        }, // TODO - LAST CHANGES
+        isError = isErrorValue, // TODO - LAST CHANGES
         value = value,
         leadingIcon = {
             Icon(
@@ -43,11 +52,11 @@ fun EditNumberField(
         onValueChange = { newValue ->
             // Valida el nuevo valor con la regex (de uno en uno)
             if (numericRegex.matches(newValue)) {
-                onValueChange(newValue) // Solo actualiza si el valor es válido
+                onValueChange(newValue) // Solo actualiza si son números
             }
         },
         label = { Text(stringResource(label)) },
-        singleLine = true, //condensa el cuadrotexto en 1 linea desplazable a partir de varias lineas
+        singleLine = true,
         keyboardOptions = keyboardOptions,
         keyboardActions = KeyboardActions(
             onDone = {
@@ -56,7 +65,7 @@ fun EditNumberField(
             }
         ),
         modifier = modifier
-            .padding(end = 8.dp) // Espacio entre los elementos
+            .padding(end = 8.dp)
             .onFocusChanged { focusState ->
             // Sincronizamos con el ViewModel solo cuando se pierde el foco
             if (!focusState.isFocused) {

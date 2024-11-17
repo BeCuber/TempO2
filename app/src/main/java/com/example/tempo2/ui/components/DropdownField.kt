@@ -47,7 +47,6 @@ fun DropdownField(
     var expanded by remember { mutableStateOf(false) }
 
     Box(
-//        modifier = modifier
         modifier = modifier
             .fillMaxWidth()
             .background(
@@ -62,45 +61,24 @@ fun DropdownField(
             .clickable { expanded = true } // Hacer que el cuadro sea clickable para desplegar el menú
             .padding(horizontal = 16.dp, vertical = 8.dp) // Padding interno
     ) {
-        // Text field or box showing selected option
-//        Text(
-//            text = selectedOption,
-//            modifier = Modifier
-//                .clickable { expanded = true }
-//                .background(MaterialTheme.colorScheme.primary)
-//                .padding(8.dp),
-//            color = MaterialTheme.colorScheme.onPrimary
-//        )
         Row(
             verticalAlignment = Alignment.CenterVertically,
-//            modifier = Modifier.fillMaxWidth()
             modifier = modifier
         ) {
-            // Icono para indicar que es un dropdown
-//            Icon(
-//                painter = painterResource(id = leadingIcon),
-//                contentDescription = null,
-//                tint = MaterialTheme.colorScheme.onSurface
-//            )
-            // Texto que muestra la opción seleccionada
             Text(
                 text = selectedOption,
                 color = MaterialTheme.colorScheme.onSurface, // Color del texto para que coincida con EditNumberField
                 modifier = Modifier.weight(1f) // Permite al texto ocupar el espacio disponible
             )
-
-            // Icono para indicar que es un dropdown
             Icon(
                 imageVector = Icons.Default.ArrowDropDown,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurface
             )
         }
-
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
-//            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
             modifier = modifier
         ) {
             options.forEach { option ->

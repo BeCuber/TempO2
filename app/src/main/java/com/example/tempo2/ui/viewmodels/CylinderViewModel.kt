@@ -41,29 +41,22 @@ class CylinderViewModel : ViewModel() {
     /**
      * Actualiza `pressureValueDisplay` con el nuevo valor ingresado por el usuario.
      */
-    fun updatePressureValue(newPressure: String) {
+    fun updatePressureValue(newPressure: String, isValid: Boolean) {
         val bigDecimalValue = newPressure.toBigDecimalOrNull()
 
         if (bigDecimalValue != null) {
-            // Validamos los rangos mínimos y máximos
-            val minAllowed = getMinAllowed(pressure.unit)
-            val maxAllowed = getMaxAllowed(pressure.unit)
 
-            if (bigDecimalValue in minAllowed..maxAllowed) {
-                _pressureValueDisplay.value = newPressure
+            _pressureValueDisplay.value = newPressure
 
-                Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
-                Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
-                Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
-                Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
+            Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
+            Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
+            Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
+            Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
 
-                pressure.setValue(bigDecimalValue)
-                cylinder.setPo(pressure)
-                updateTime()
-            } else {
-                Log.e("Validation", "Value out of range: $bigDecimalValue")
-                // Aquí puedes manejar el caso fuera de rango (mostrar un mensaje al usuario, etc.)
-            }
+            pressure.setValue(bigDecimalValue)
+            cylinder.setPo(pressure)
+            updateTime(isValid)
+
         } else {
             Log.e("Validation", "This field cannot be empty")
             // Aquí puedes manejar el caso de entrada inválida.
@@ -79,7 +72,7 @@ class CylinderViewModel : ViewModel() {
     /**
      * Actualiza pressure, cylinder y _pressureValueDisplay(String) con el nuevo valor del DropDown UnitPressure.
      */
-    fun updateUnitPressure(selectedUnitPressureEnum: UnitPressure?) {
+    fun updateUnitPressure(selectedUnitPressureEnum: UnitPressure?, isValid: Boolean) {
 
 //        Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
         Log.d("viewmodel.updateUnitPressure()", "PressureValueBefore: ${pressure.value}")
@@ -93,7 +86,7 @@ class CylinderViewModel : ViewModel() {
         _pressureValueDisplay.value = pressure.value.setScale(0, RoundingMode.HALF_UP).toPlainString()
         Log.d("viewmodel.updateUnitPressure()", "PressureValueBeforeCylinderSet: ${pressure.value}")
         cylinder.setPo(pressure)
-        updateTime()
+        updateTime(isValid)
         // Actualiza el valor observable
 //        _pressureValueDisplay.value = pressure.value.setScale(0, RoundingMode.HALF_UP).toPlainString()
 
@@ -107,7 +100,7 @@ class CylinderViewModel : ViewModel() {
     /**
      * Actualiza `vol1Bar` en cylinder con el nuevo valor ingresado por el usuario.
      */
-    fun updateCylinderVolume(selectedCylinderEnum: Any?) {
+    fun updateCylinderVolume(selectedCylinderEnum: Any?, isValid: Boolean) {
         val newVolume = when (selectedCylinderEnum) {
             is CylinderSystemEuropean -> selectedCylinderEnum.vol1Bar
             is CylinderSystemAmerican -> selectedCylinderEnum.vol1Bar
@@ -118,7 +111,7 @@ class CylinderViewModel : ViewModel() {
         Log.d("CylinderViewModelDebug", "CylinderPrBefore: ${cylinder.pr}")
 
         cylinder.setVol1Bar(newVolume)
-        updateTime()
+        updateTime(isValid)
         Log.d("CylinderViewModelDebug", "selectedCylinderEnum: $selectedCylinderEnum")
         Log.d("CylinderViewModelDebug", "vol1Bar value: $newVolume")
         Log.d("CylinderViewModelDebug", "CylinderVolumeAfter: ${cylinder.vol1Bar}")
@@ -128,12 +121,12 @@ class CylinderViewModel : ViewModel() {
     /**
      * Actualiza flowSpeed.
      */
-    fun updateFlowSpeed(newFlowSpeed: String) {
+    fun updateFlowSpeed(newFlowSpeed: String, isValid: Boolean) {
         val bigDecimalValue = newFlowSpeed.toBigDecimalOrNull()
 
         if (bigDecimalValue != null) {
             _flowSpeedInput.value = newFlowSpeed
-            updateTime()
+            updateTime(isValid)
         } else {
             Log.e("Validation", "This field cannot be empty")
             // Aquí puedes manejar el caso de entrada inválida.
@@ -144,9 +137,9 @@ class CylinderViewModel : ViewModel() {
     /**
      * Calcula el tiempo restante con los valores actuales de cylinder y flowSpeed
      */
-    private fun updateTime() {
-        val flowSpeed = _flowSpeedInput.value?.toBigDecimalOrNull() ?: BigDecimal.ONE // Convertir a int, o 0 si es nulo
-        _remainingTime.value = TimeCalculator.formatTime(cylinder, flowSpeed)
+    private fun updateTime(isValid: Boolean) {
+        val flowSpeed = _flowSpeedInput.value?.toBigDecimalOrNull() ?: BigDecimal.ONE // 0 si es nulo
+        _remainingTime.value = if(isValid) TimeCalculator.formatTime(cylinder, flowSpeed) else "-- : --"
     }
 
 
