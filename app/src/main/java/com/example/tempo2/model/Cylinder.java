@@ -32,7 +32,6 @@ public class Cylinder {
      * @throws IllegalArgumentException si el volumen es menor o igual a cero.
      */
     public Cylinder(Pressure po, BigDecimal vol1Bar) {
-//        this.po = po.convertToBar(); // Experimento para quitar convertToBar() de pressure
         this.po = po.convertTo(UnitPressure.BAR); //.getValue();
         setVol1Bar(vol1Bar);
         setPr();
@@ -45,11 +44,7 @@ public class Cylinder {
 
 
     public void setPo(Pressure po) {
-//        if ((po.convertToBar()).compareTo(this.getPr()) <= 0){
-//            throw new IllegalArgumentException ("La presión observada introducida no debería ser inferior a la presión residual.");
-//        } TODO manejar este caso en interfaz si no puedo manejarlo aqui
-//        this.po = po.convertToBar();
-        this.po = po.convertTo(UnitPressure.BAR); //.getValue();
+        this.po = po.convertTo(UnitPressure.BAR);
     }
 
 
@@ -81,11 +76,6 @@ public class Cylinder {
      * Si el volumen es igual o menor a 5 litros, la presión residual será 10 bares; en caso contrario, será 20 bares.
      */
     public void setPr(){
-//        if (this.vol1Bar.compareTo(new BigDecimal("5").setScale(7, RoundingMode.HALF_DOWN)) <= 0) {
-//            this.pr = new BigDecimal("10").setScale(7, RoundingMode.HALF_DOWN);
-//        } else {
-//            this.pr = new BigDecimal("20").setScale(7, RoundingMode.HALF_DOWN);
-//        } // TODO CAMBIOS LUNES 18
         this.pr = new BigDecimal("10").setScale(7, RoundingMode.HALF_DOWN);
     }
 
@@ -97,12 +87,10 @@ public class Cylinder {
      * @throws IllegalArgumentException si la presión residual es mayor o igual que la presión inicial.
      */
     public void setPr(Pressure pr) {
-        BigDecimal newPR = pr.convertTo(UnitPressure.BAR); // .getValue();
-
+        BigDecimal newPR = pr.convertTo(UnitPressure.BAR);
         if (newPR.compareTo(this.getPo()) >= 0){
             throw new IllegalArgumentException ("La presión residual introducida no debería ser superior a la presión observada actual.");
         }
-//        this.pr = pr.convertToBar();
         this.pr = newPR;
     }
 }

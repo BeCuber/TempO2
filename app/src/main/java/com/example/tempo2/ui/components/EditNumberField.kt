@@ -19,10 +19,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EditNumberField(
-    @StringRes errorMessage: Int,
+    errorMessage: String,
     isErrorValue: Boolean,
-//    minValue: Int,
-//    maxValue: Int,
+    hint: String,
     @StringRes label: Int,
     @StringRes leadingIconDescription: Int,
     @DrawableRes leadingIcon: Int,
@@ -36,9 +35,10 @@ fun EditNumberField(
     val numericRegex = Regex("^[0-9]*$") // Acepta solo dígitos del 0 al 9
 
     TextField(
+        placeholder = { Text(text = hint) },
         supportingText = {
             if (isErrorValue) {
-                Text(text = stringResource(id = errorMessage))
+                Text(text = errorMessage)
             }
         },
         isError = isErrorValue,
@@ -50,8 +50,7 @@ fun EditNumberField(
                 modifier = Modifier.size(24.dp)
             ) },
         onValueChange = { newValue ->
-            // Valida el nuevo valor con la regex (de uno en uno)
-            if (numericRegex.matches(newValue)) {
+            if (numericRegex.matches(newValue)) { // Valida el nuevo valor con la regex (de uno en uno)
                 onValueChange(newValue) // Solo actualiza si son números
             }
         },
@@ -60,8 +59,7 @@ fun EditNumberField(
         keyboardOptions = keyboardOptions,
         keyboardActions = KeyboardActions(
             onDone = {
-                // Cuando se presiona "Done", se limpia el foco
-                focusManager.clearFocus()
+                focusManager.clearFocus() // Cuando se presiona "Done", se limpia el foco
             }
         ),
         modifier = modifier

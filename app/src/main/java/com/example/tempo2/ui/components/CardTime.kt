@@ -21,13 +21,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.tempo2.R
 
 @Composable
 fun CardTime(
-    @StringRes label: Int, // label_text
-    @StringRes timeResult: Int, // label_text
-    @StringRes leadingIconDescription: Int, // icon
-    @DrawableRes leadingIcon: Int, // icon
+    @StringRes label: Int,
+    @StringRes timeResult: Int,
+    @StringRes leadingIconDescription: Int,
+    @DrawableRes leadingIcon: Int,
     isOutlined: Boolean,
     remainingTimeLayout: String
 ) {
@@ -55,11 +56,17 @@ fun CardTime(
                 modifier = Modifier.padding(top=4.dp)
             )
         }
-        Spacer(modifier = Modifier.height(9.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = stringResource(timeResult, remainingTimeLayout),
             style = MaterialTheme.typography.displayLarge,
+            color = Color(android.graphics.Color.DKGRAY)
+        )
+        Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = stringResource(R.string.hours_minutes),
+            style = MaterialTheme.typography.bodySmall,
             color = Color(android.graphics.Color.DKGRAY)
         )
         Spacer(modifier = Modifier.height(30.dp))

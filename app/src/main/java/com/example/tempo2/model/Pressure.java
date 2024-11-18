@@ -60,7 +60,6 @@ public class Pressure {
         return unit.convertToBar(value);
     }
 
-    //EXPERIMENTOS 15 / 11
     /**
      * Convierte este objeto Pressure al valor y unidad seleccionados.
      *
@@ -115,10 +114,6 @@ public class Pressure {
             default:
                 throw new IllegalStateException("Unexpected unit: " + this.getUnit());
         }
-
-//        this.setValue(updatedValuePressure);
-//        this.setUnit(newUnitPressure);
-
         return updatedValuePressure;
     }
 }

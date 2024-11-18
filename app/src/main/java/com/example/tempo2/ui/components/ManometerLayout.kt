@@ -74,26 +74,23 @@ fun ManometerLayout(
     val maxValuePressure = getMaxAllowed(selectedUnitPressureEnum).toInt()
     val pressureAsInt = tempValue.toIntOrNull()
     val pressureIsValid = pressureAsInt != null && (pressureAsInt in minValuePressure..maxValuePressure)
-//    val pressureIsValid = tempValue.isNotBlank() &&
-//            tempValue.toIntOrNull()?.let { it in minValuePressure..maxValuePressure } ?: false
     Log.d("ManometerLayoutDebug", "pressureIsValid: $pressureIsValid")
+    val minValuePressureString = minValuePressure.toString()
+    val maxValuePressureString = maxValuePressure.toString()
+    val errorMsg = stringResource(R.string.error_pressure_value, minValuePressureString, maxValuePressureString)
 
     val minValueFlow = 1
     val maxValueFlow = 15
     val flowAsInt = tempFlowSpeed.toIntOrNull()
     val flowSpeedIsValid = flowAsInt != null && (flowAsInt in minValueFlow..maxValueFlow) && tempFlowSpeed != ""
-//    val flowSpeedIsValid = tempFlowSpeed.isNotBlank() &&
-//            tempFlowSpeed.toIntOrNull()?.let { it in minValueFlow..maxValueFlow } ?: false
     Log.d("ManometerLayoutDebug", "flowSpeedIsValid: $flowSpeedIsValid")
 
 
     val isOutlined = (!pressureIsValid || !flowSpeedIsValid)
     Log.d("ManometerLayoutDebug", "isOutlined: $isOutlined")
-//    Log.d("ManometerLayoutDebug", "selectedCylinder: $selectedCylinderName")
-//    Log.d("ManometerLayoutDebug", "selectedCylinderEnum: $selectedCylinderEnum")
-//    Log.d("ManometerLayoutDebug", "selectedUnitName: $selectedUnitPressureName")
-//    Log.d("ManometerLayoutDebug", "selectedUnitEnum: $selectedUnitPressureEnum")
-//    Log.d("ManometerLayoutDebug", "pressureValueDisplayLayout: $pressureValueDisplayLayout")
+
+    val hint_pressure = selectedUnitPressureEnum?.name.toString()
+
 
     Column(
         modifier = Modifier
@@ -117,10 +114,9 @@ fun ManometerLayout(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             EditNumberField(
-                errorMessage = R.string.error_pruebaaaa, // TODO - LAST CHANGES
-                isErrorValue = !pressureIsValid, // TODO - LAST CHANGES
-//                minValue = minValuePressure, // TODO - LAST CHANGES
-//                maxValue = maxValuePressure, // TODO - LAST CHANGES
+                hint = hint_pressure,
+                errorMessage = errorMsg,
+                isErrorValue = !pressureIsValid,
                 label = R.string.observed_pressure,
                 leadingIcon = R.drawable.readiness,
                 leadingIconDescription = R.string.cont_descrp_manometer_icon,
@@ -134,6 +130,7 @@ fun ManometerLayout(
                 },
                 modifier = Modifier
                     .weight(0.5f)
+                    .padding(bottom = 18.dp)
                     .onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
                             viewModel.updatePressureValue(tempValue, !isOutlined)
@@ -151,20 +148,18 @@ fun ManometerLayout(
                     viewModel.updateUnitPressure(selectedUnitPressureEnum, !isOutlined)},
                 modifier = Modifier
                     .weight(0.5f)
-                    .padding(bottom = 10.dp) // TODO - LAST CHANGES
+                    .padding(bottom = 18.dp) // TODO - LAST CHANGES
             )
         }
-        Spacer(modifier = Modifier.height(9.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             EditNumberField(
-                errorMessage = R.string.error_pruebaaaa, // TODO - LAST CHANGES
-                isErrorValue = !flowSpeedIsValid, // TODO - LAST CHANGES
-//                minValue = minValueFlow, // TODO - LAST CHANGES
-//                maxValue = maxValueFlow, // TODO - LAST CHANGES
+                hint = stringResource(R.string.hint_flow_speed),
+                errorMessage = stringResource(R.string.error_flow_speed_value),
+                isErrorValue = !flowSpeedIsValid,
                 label = R.string.flow_speed,
                 leadingIcon = R.drawable.flow,
                 leadingIconDescription = R.string.cont_descrp_o2_flow_icon,
@@ -195,10 +190,10 @@ fun ManometerLayout(
                     viewModel.updateCylinderVolume(selectedCylinderEnum, !isOutlined)},
                 modifier = Modifier
                     .weight(0.5f)
-                    .padding(bottom = 10.dp) // TODO - LAST CHANGES
+                    .padding(bottom = 8.dp)
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         CardTime(
             label = R.string.label_time,
             timeResult = R.string.remaining_time,

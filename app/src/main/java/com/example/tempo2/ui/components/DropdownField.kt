@@ -58,8 +58,8 @@ fun getUnitPressureOptions(): List<String>{
 fun ExposedDropdownField(
     @DrawableRes leadingIcon: Int,
     @StringRes leadingIconDescription: Int,
-    options: List<String>,               // Lista de opciones pasadas
-    selectedOption: String,              // Opción seleccionada actualmente
+    options: List<String>,
+    selectedOption: String,
     onOptionSelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ){
@@ -84,7 +84,6 @@ fun ExposedDropdownField(
                 ) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
         )
-        // Menú desplegable
         ExposedDropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false }

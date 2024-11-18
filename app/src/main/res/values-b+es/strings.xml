@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">TempO2</string>
+    <string name="remaining_time">%s</string>
+    <string name="label_time">Tiempo restante: </string>
+    <string name="flow_speed">Flujo O2</string>
+    <string name="cont_descrp_manometer">Manómetro</string>
+    <string name="cont_descrp_manometer_icon">Icono Manómetro</string>
+    <string name="cont_descrp_ruler_icon">Unidad de medida</string>
+    <string name="cont_descrp_o2_flow_icon">Velocidad flujo O2 en litros por minuto</string>
+    <string name="cont_descrp_cylinder_icon">Tamaño botella</string>
+    <string name="observed_pressure">Presión</string>
+    <string name="cont_descrp_timer">Icono de temporizador</string>
+    <string name="error_flow_speed_value">Válido de 1 a 15</string>
+    <string name="error_pressure_value">De %s a %s</string>
+    <string name="hint_flow_speed">L/m</string>
+    <string name="hours_minutes">HORAS : MINUTOS</string>
+</resources>

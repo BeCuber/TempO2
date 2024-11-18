@@ -25,7 +25,6 @@ class CylinderViewModel : ViewModel() {
     private val _flowSpeedInput = MutableLiveData("15") // Inicia flowspeed en 15 en el layout
     val flowSpeedInput: LiveData<String> = _flowSpeedInput
 
-//    private val _remainingTime = MutableLiveData("00:00") // Valor inicial de tiempo
     private val _remainingTime = MutableLiveData(String.format(Locale.getDefault(), "%02d:%02d", 0, 0)) // Valor inicial de tiempo
     val remainingTime: LiveData<String> = _remainingTime
 
@@ -44,23 +43,18 @@ class CylinderViewModel : ViewModel() {
     fun updatePressureValue(newPressure: String, isValid: Boolean) {
         val bigDecimalValue = newPressure.toBigDecimalOrNull()
 
+        Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
+        Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
+        Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
+        Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
+
         if (bigDecimalValue != null) {
-
             _pressureValueDisplay.value = newPressure
-
-            Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
-            Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
-            Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
-            Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
-
             pressure.setValue(bigDecimalValue)
             cylinder.setPo(pressure)
-            updateTime(isValid)
 
-        } else {
-            Log.e("Validation", "This field cannot be empty")
-            updateTime(isValid)
         }
+        updateTime(isValid)
 
         Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
         Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
@@ -74,7 +68,6 @@ class CylinderViewModel : ViewModel() {
      */
     fun updateUnitPressure(selectedUnitPressureEnum: UnitPressure?, isValid: Boolean) {
 
-//        Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
         Log.d("viewmodel.updateUnitPressure()", "PressureValueBefore: ${pressure.value}")
         Log.d("viewmodel.updateUnitPressure()", "PressureUnitBefore: ${pressure.unit}")
         Log.d("viewmodel.updateUnitPressure()", "CylinderPoBefore: ${cylinder.po}")
@@ -82,15 +75,9 @@ class CylinderViewModel : ViewModel() {
         var newValuePressure = pressure.convertTo(selectedUnitPressureEnum) // BigDecimal
         pressure.setValue(newValuePressure)
         pressure.setUnit(selectedUnitPressureEnum)
-        // Actualiza el valor observable
         _pressureValueDisplay.value = pressure.value.setScale(0, RoundingMode.HALF_UP).toPlainString()
-        Log.d("viewmodel.updateUnitPressure()", "PressureValueBeforeCylinderSet: ${pressure.value}")
         cylinder.setPo(pressure)
         updateTime(isValid)
-        // Actualiza el valor observable
-//        _pressureValueDisplay.value = pressure.value.setScale(0, RoundingMode.HALF_UP).toPlainString()
-
-//        Log.d("viewmodel.updateUnitPressure()", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
         Log.d("viewmodel.updateUnitPressure()", "PressureValueAfter: ${pressure.value}")
         Log.d("viewmodel.updateUnitPressure()", "PressureUnitAfter: ${pressure.unit}")
         Log.d("viewmodel.updateUnitPressure()", "CylinderPoAfter: ${cylinder.po}")
@@ -109,7 +96,6 @@ class CylinderViewModel : ViewModel() {
         Log.d("CylinderViewModelDebug", "CylinderVolumeBefore: ${cylinder.vol1Bar}")
         Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
         Log.d("CylinderViewModelDebug", "CylinderPrBefore: ${cylinder.pr}")
-
         cylinder.setVol1Bar(newVolume)
         updateTime(isValid)
         Log.d("CylinderViewModelDebug", "selectedCylinderEnum: $selectedCylinderEnum")
@@ -123,14 +109,10 @@ class CylinderViewModel : ViewModel() {
      */
     fun updateFlowSpeed(newFlowSpeed: String, isValid: Boolean) {
         val bigDecimalValue = newFlowSpeed.toBigDecimalOrNull()
-
         if (bigDecimalValue != null) {
             _flowSpeedInput.value = newFlowSpeed
-            updateTime(isValid)
-        } else {
-            Log.e("Validation", "This field cannot be empty")
-            updateTime(isValid)
         }
+        updateTime(isValid)
     }
 
 
@@ -145,9 +127,6 @@ class CylinderViewModel : ViewModel() {
 
 
     // <-- DEFINICIÓN DE RANGOS DE VALORES VÁLIDOS PARA PRESSURE -->
-
-//    private var minAllowedPressure = Pressure(BigDecimal("10"), UnitPressure.BAR)
-//    private var maxAllowedPressure = Pressure(BigDecimal("315"), UnitPressure.BAR)
     //full = new Pressure(new BigDecimal(""), UnitPressure.BAR); // 100%
     //half = new Pressure(new BigDecimal(""), UnitPressure.BAR); // 50%
     //low = new Pressure(new BigDecimal(""), UnitPressure.BAR); // 25%
