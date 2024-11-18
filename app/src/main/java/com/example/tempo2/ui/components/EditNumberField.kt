@@ -19,10 +19,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EditNumberField(
-    @StringRes errorMessage: Int, // TODO - LAST CHANGES
-    isErrorValue: Boolean, // TODO - LAST CHANGES
-//    minValue: Int, // TODO - LAST CHANGES
-//    maxValue: Int, // TODO - LAST CHANGES
+    @StringRes errorMessage: Int,
+    isErrorValue: Boolean,
+//    minValue: Int,
+//    maxValue: Int,
     @StringRes label: Int,
     @StringRes leadingIconDescription: Int,
     @DrawableRes leadingIcon: Int,
@@ -40,8 +40,8 @@ fun EditNumberField(
             if (isErrorValue) {
                 Text(text = stringResource(id = errorMessage))
             }
-        }, // TODO - LAST CHANGES
-        isError = isErrorValue, // TODO - LAST CHANGES
+        },
+        isError = isErrorValue,
         value = value,
         leadingIcon = {
             Icon(

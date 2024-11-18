@@ -69,7 +69,7 @@ fun ManometerLayout(
     var selectedCylinderName by remember { mutableStateOf(cylinderOptions[0]) }
     var selectedCylinderEnum by remember { mutableStateOf<Any?>(viewModel.getCylinderEnum(selectedCylinderName)) }
 
-    // rangos // TODO - LAST CHANGES
+    // rangos
     val minValuePressure = getMinAllowed(selectedUnitPressureEnum).toInt()
     val maxValuePressure = getMaxAllowed(selectedUnitPressureEnum).toInt()
     val pressureAsInt = tempValue.toIntOrNull()
@@ -88,6 +88,7 @@ fun ManometerLayout(
 
 
     val isOutlined = (!pressureIsValid || !flowSpeedIsValid)
+    Log.d("ManometerLayoutDebug", "isOutlined: $isOutlined")
 //    Log.d("ManometerLayoutDebug", "selectedCylinder: $selectedCylinderName")
 //    Log.d("ManometerLayoutDebug", "selectedCylinderEnum: $selectedCylinderEnum")
 //    Log.d("ManometerLayoutDebug", "selectedUnitName: $selectedUnitPressureName")
@@ -135,7 +136,7 @@ fun ManometerLayout(
                     .weight(0.5f)
                     .onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
-                            viewModel.updatePressureValue(tempValue, pressureIsValid)
+                            viewModel.updatePressureValue(tempValue, !isOutlined)
                         }
                     }
             )
@@ -179,7 +180,7 @@ fun ManometerLayout(
                     .weight(0.5f)
                     .onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
-                            viewModel.updateFlowSpeed(tempFlowSpeed, flowSpeedIsValid)
+                            viewModel.updateFlowSpeed(tempFlowSpeed, !isOutlined)
                         }
                     }
             )

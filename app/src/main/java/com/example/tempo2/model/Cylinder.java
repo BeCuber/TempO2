@@ -81,11 +81,12 @@ public class Cylinder {
      * Si el volumen es igual o menor a 5 litros, la presión residual será 10 bares; en caso contrario, será 20 bares.
      */
     public void setPr(){
-        if (this.vol1Bar.compareTo(new BigDecimal("5").setScale(7, RoundingMode.HALF_DOWN)) <= 0) {
-            this.pr = new BigDecimal("10").setScale(7, RoundingMode.HALF_DOWN);
-        } else {
-            this.pr = new BigDecimal("20").setScale(7, RoundingMode.HALF_DOWN);
-        }
+//        if (this.vol1Bar.compareTo(new BigDecimal("5").setScale(7, RoundingMode.HALF_DOWN)) <= 0) {
+//            this.pr = new BigDecimal("10").setScale(7, RoundingMode.HALF_DOWN);
+//        } else {
+//            this.pr = new BigDecimal("20").setScale(7, RoundingMode.HALF_DOWN);
+//        } // TODO CAMBIOS LUNES 18
+        this.pr = new BigDecimal("10").setScale(7, RoundingMode.HALF_DOWN);
     }
 
 

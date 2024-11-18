@@ -59,7 +59,7 @@ class CylinderViewModel : ViewModel() {
 
         } else {
             Log.e("Validation", "This field cannot be empty")
-            // Aquí puedes manejar el caso de entrada inválida.
+            updateTime(isValid)
         }
 
         Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
@@ -129,7 +129,7 @@ class CylinderViewModel : ViewModel() {
             updateTime(isValid)
         } else {
             Log.e("Validation", "This field cannot be empty")
-            // Aquí puedes manejar el caso de entrada inválida.
+            updateTime(isValid)
         }
     }
 
@@ -138,6 +138,7 @@ class CylinderViewModel : ViewModel() {
      * Calcula el tiempo restante con los valores actuales de cylinder y flowSpeed
      */
     private fun updateTime(isValid: Boolean) {
+        Log.d("CylinderViewModelDebug", "isValid: $isValid")
         val flowSpeed = _flowSpeedInput.value?.toBigDecimalOrNull() ?: BigDecimal.ONE // 0 si es nulo
         _remainingTime.value = if(isValid) TimeCalculator.formatTime(cylinder, flowSpeed) else "-- : --"
     }

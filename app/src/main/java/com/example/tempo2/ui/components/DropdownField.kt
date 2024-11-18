@@ -36,65 +36,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tempo2.model.UnitPressure
 
-@Composable
-fun DropdownField(
-    @DrawableRes leadingIcon: Int,
-    options: List<String>,
-    selectedOption: String,
-    onOptionSelected: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = MaterialTheme.colorScheme.surface,
-                shape = MaterialTheme.shapes.extraSmall
-            )
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outline,
-                shape = MaterialTheme.shapes.extraSmall
-            )
-            .clickable { expanded = true } // Hacer que el cuadro sea clickable para desplegar el menú
-            .padding(horizontal = 16.dp, vertical = 8.dp) // Padding interno
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-        ) {
-            Text(
-                text = selectedOption,
-                color = MaterialTheme.colorScheme.onSurface, // Color del texto para que coincida con EditNumberField
-                modifier = Modifier.weight(1f) // Permite al texto ocupar el espacio disponible
-            )
-            Icon(
-                imageVector = Icons.Default.ArrowDropDown,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface
-            )
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = modifier
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option) },
-                    onClick = {
-                        onOptionSelected(option)
-                        expanded = false
-                    }
-                )
-            }
-        }
-    }
-}
-
-
 /**
  * Prepara la lista de Strings a presentar juntando los 2 enum de tipos de Cylinder
  */
@@ -111,11 +52,6 @@ fun getUnitPressureOptions(): List<String>{
     return UnitPressure.values().map { it.name }
 }
 
-
-
-
-
-// PRUEBAS
 // fuente: https://www.youtube.com/watch?v=5h737wNN-qM&ab_channel=Destoffe
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
