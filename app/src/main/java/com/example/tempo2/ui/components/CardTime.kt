@@ -59,7 +59,7 @@ fun CardTime(
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = stringResource(timeResult, remainingTimeLayout),
+            text = if(!isOutlined) stringResource(timeResult, remainingTimeLayout) else "-- : --",
             style = MaterialTheme.typography.displayLarge,
             color = Color(android.graphics.Color.DKGRAY)
         )

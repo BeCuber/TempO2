@@ -63,11 +63,17 @@ dependencies {
     implementation(libs.androidx.ui.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+//    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.core.v351)
+//    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom.v20230800))
+//    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.ui.test.junit4)
+    androidTestImplementation(libs.androidx.junit.v115)
+
     debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+//    debugImplementation(libs.androidx.ui.test.manifest)
+    debugImplementation(libs.ui.test.manifest)
     // Dependencias de Compose
     implementation(libs.ui)
     implementation(libs.androidx.material)
@@ -76,10 +82,10 @@ dependencies {
     // Compose ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
-    // Otras dependencias de Lifecycle si no las tienes aún
+    // Otras dependencias de Lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
 
-
-
+    // Preferences DataStore
+    implementation(libs.androidx.datastore.preferences)
 }

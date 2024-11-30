@@ -65,7 +65,7 @@ fun EditNumberField(
         modifier = modifier
             .padding(end = 8.dp)
             .onFocusChanged { focusState ->
-            // Sincronizamos con el ViewModel solo cuando se pierde el foco
+            // Se sincroniza con el ViewModel solo cuando se pierde el foco
             if (!focusState.isFocused) {
                 onValueChange(value)
             }

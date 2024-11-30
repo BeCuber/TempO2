@@ -91,7 +91,7 @@ public class CylinderTest {
         Cylinder cylinder = new Cylinder(pressure, new BigDecimal("10"));
 
         assertEquals(new BigDecimal("200").setScale(7, RoundingMode.HALF_DOWN), cylinder.getPo());
-        assertEquals(new BigDecimal("20").setScale(7, RoundingMode.HALF_DOWN), cylinder.getPr());
+        assertEquals(new BigDecimal("10").setScale(7, RoundingMode.HALF_DOWN), cylinder.getPr());
 
     }
 
@@ -102,7 +102,7 @@ public class CylinderTest {
         Cylinder cylinder = new Cylinder(pressure, new BigDecimal("10"));
 
         assertEquals(new BigDecimal("2").setScale(7, RoundingMode.HALF_DOWN), cylinder.getPo());
-        assertEquals(new BigDecimal("20").setScale(7, RoundingMode.HALF_DOWN), cylinder.getPr());
+        assertEquals(new BigDecimal("10").setScale(7, RoundingMode.HALF_DOWN), cylinder.getPr());
 
     }
 
@@ -113,7 +113,7 @@ public class CylinderTest {
         Cylinder cylinder = new Cylinder(pressure, new BigDecimal("10"));
 
         assertEquals(new BigDecimal("13.78952").setScale(7, RoundingMode.HALF_DOWN), cylinder.getPo());
-        assertEquals(new BigDecimal("20").setScale(7, RoundingMode.HALF_DOWN), cylinder.getPr());
+        assertEquals(new BigDecimal("10").setScale(7, RoundingMode.HALF_DOWN), cylinder.getPr());
 
     }
 

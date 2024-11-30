@@ -11,7 +11,7 @@
     <string name="observed_pressure">Pressure</string>
     <string name="cont_descrp_timer">Timer icon</string>
     <string name="error_flow_speed_value">Valid from 1 to 15</string>
-    <string name="error_pressure_value">%s to %s</string>
+    <string name="error_pressure_value">%1$s to %2$s</string>
     <string name="hint_flow_speed">L/m</string>
     <string name="hours_minutes">HOURS : MINUTES</string>
 </resources>

@@ -1,13 +1,16 @@
 package com.example.tempo2.ui.viewmodels
 
 import android.util.Log
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.tempo2.model.Cylinder
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.tempo2.R
 import com.example.tempo2.model.CylinderSystemAmerican
 import com.example.tempo2.model.CylinderSystemEuropean
 import com.example.tempo2.model.Pressure
@@ -29,100 +32,80 @@ class CylinderViewModel : ViewModel() {
     val remainingTime: LiveData<String> = _remainingTime
 
     // Los valores iniciales para Pressure y Cylinder
-    var unitPressure by mutableStateOf(UnitPressure.BAR)
-    var volume by mutableStateOf(BigDecimal("2"))
+    private var unitPressure by mutableStateOf(UnitPressure.BAR)
+    private var volume by mutableStateOf(BigDecimal("2"))
 
     private var pressure = Pressure(BigDecimal("200"), unitPressure)
     private var cylinder = Cylinder(pressure, volume)
+
+
 
     // <-- ACTUALIZACIÓN DE VALORES EN LOS COMPOSABLES -->
 
     /**
      * Actualiza `pressureValueDisplay` con el nuevo valor ingresado por el usuario.
      */
-    fun updatePressureValue(newPressure: String, isValid: Boolean) {
+    fun updatePressureValue(newPressure: String) {
         val bigDecimalValue = newPressure.toBigDecimalOrNull()
-
-        Log.d("CylinderViewModelDebug", "PressureValueDisplayBefore: ${pressureValueDisplay.value}")
-        Log.d("CylinderViewModelDebug", "PressureValueBefore: ${pressure.value}")
-        Log.d("CylinderViewModelDebug", "PressureUnitBefore: ${pressure.unit}")
-        Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
-
         if (bigDecimalValue != null) {
             _pressureValueDisplay.value = newPressure
             pressure.setValue(bigDecimalValue)
             cylinder.setPo(pressure)
 
         }
-        updateTime(isValid)
-
-        Log.d("CylinderViewModelDebug", "PressureValueDisplayAfter: ${pressureValueDisplay.value}")
-        Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
-        Log.d("CylinderViewModelDebug", "PressureUnitAfter: ${pressure.unit}")
-        Log.d("CylinderViewModelDebug", "CylinderPoAfter: ${cylinder.po}")
+        updateTime()
     }
 
 
     /**
      * Actualiza pressure, cylinder y _pressureValueDisplay(String) con el nuevo valor del DropDown UnitPressure.
      */
-    fun updateUnitPressure(selectedUnitPressureEnum: UnitPressure?, isValid: Boolean) {
-
-        Log.d("viewmodel.updateUnitPressure()", "PressureValueBefore: ${pressure.value}")
-        Log.d("viewmodel.updateUnitPressure()", "PressureUnitBefore: ${pressure.unit}")
-        Log.d("viewmodel.updateUnitPressure()", "CylinderPoBefore: ${cylinder.po}")
-
-        var newValuePressure = pressure.convertTo(selectedUnitPressureEnum) // BigDecimal
+    fun updateUnitPressure(selectedUnitPressureEnum: UnitPressure?) {
+//        if (!isValid) {
+//            updateTime()
+//            return
+//        }
+        val newValuePressure = pressure.convertTo(selectedUnitPressureEnum) // BigDecimal
         pressure.setValue(newValuePressure)
         pressure.setUnit(selectedUnitPressureEnum)
         _pressureValueDisplay.value = pressure.value.setScale(0, RoundingMode.HALF_UP).toPlainString()
         cylinder.setPo(pressure)
-        updateTime(isValid)
-        Log.d("viewmodel.updateUnitPressure()", "PressureValueAfter: ${pressure.value}")
-        Log.d("viewmodel.updateUnitPressure()", "PressureUnitAfter: ${pressure.unit}")
-        Log.d("viewmodel.updateUnitPressure()", "CylinderPoAfter: ${cylinder.po}")
+        updateTime()
     }
 
 
     /**
      * Actualiza `vol1Bar` en cylinder con el nuevo valor ingresado por el usuario.
      */
-    fun updateCylinderVolume(selectedCylinderEnum: Any?, isValid: Boolean) {
+    fun updateCylinderVolume(selectedCylinderEnum: Any?) {
         val newVolume = when (selectedCylinderEnum) {
             is CylinderSystemEuropean -> selectedCylinderEnum.vol1Bar
             is CylinderSystemAmerican -> selectedCylinderEnum.vol1Bar
             else -> BigDecimal.ZERO // Valor por defecto, o lanza un error
         }
-        Log.d("CylinderViewModelDebug", "CylinderVolumeBefore: ${cylinder.vol1Bar}")
-        Log.d("CylinderViewModelDebug", "CylinderPoBefore: ${cylinder.po}")
-        Log.d("CylinderViewModelDebug", "CylinderPrBefore: ${cylinder.pr}")
         cylinder.setVol1Bar(newVolume)
-        updateTime(isValid)
-        Log.d("CylinderViewModelDebug", "selectedCylinderEnum: $selectedCylinderEnum")
-        Log.d("CylinderViewModelDebug", "vol1Bar value: $newVolume")
-        Log.d("CylinderViewModelDebug", "CylinderVolumeAfter: ${cylinder.vol1Bar}")
+        updateTime()
     }
 
 
     /**
      * Actualiza flowSpeed.
      */
-    fun updateFlowSpeed(newFlowSpeed: String, isValid: Boolean) {
+    fun updateFlowSpeed(newFlowSpeed: String) {
         val bigDecimalValue = newFlowSpeed.toBigDecimalOrNull()
         if (bigDecimalValue != null) {
             _flowSpeedInput.value = newFlowSpeed
         }
-        updateTime(isValid)
+        updateTime()
     }
 
 
     /**
      * Calcula el tiempo restante con los valores actuales de cylinder y flowSpeed
      */
-    private fun updateTime(isValid: Boolean) {
-        Log.d("CylinderViewModelDebug", "isValid: $isValid")
-        val flowSpeed = _flowSpeedInput.value?.toBigDecimalOrNull() ?: BigDecimal.ONE // 0 si es nulo
-        _remainingTime.value = if(isValid) TimeCalculator.formatTime(cylinder, flowSpeed) else "-- : --"
+    private fun updateTime() {
+        val flowSpeed = _flowSpeedInput.value?.toBigDecimalOrNull() ?: BigDecimal.ONE
+        _remainingTime.value = TimeCalculator.formatTime(cylinder, flowSpeed)
     }
 
 
@@ -130,21 +113,19 @@ class CylinderViewModel : ViewModel() {
     //full = new Pressure(new BigDecimal(""), UnitPressure.BAR); // 100%
     //half = new Pressure(new BigDecimal(""), UnitPressure.BAR); // 50%
     //low = new Pressure(new BigDecimal(""), UnitPressure.BAR); // 25%
-    companion object {
-        /**
-         *
-         */
-        fun getMinAllowed(selectedUnitPressureEnum: UnitPressure?): BigDecimal {
-            var minAllowedPressure = Pressure(BigDecimal("10"), UnitPressure.BAR)
-            return minAllowedPressure.convertTo(selectedUnitPressureEnum)
-        }
-        /**
-         *
-         */
-        fun getMaxAllowed(selectedUnitPressureEnum: UnitPressure?): BigDecimal {
-            var maxAllowedPressure = Pressure(BigDecimal("315"), UnitPressure.BAR)
-            return maxAllowedPressure.convertTo(selectedUnitPressureEnum)
-        }
+    /**
+     *
+     */
+    private fun getMinAllowed(selectedUnitPressureEnum: UnitPressure?): BigDecimal {
+        val minAllowedPressure = Pressure(BigDecimal("10"), UnitPressure.BAR)
+        return minAllowedPressure.convertTo(selectedUnitPressureEnum)
+    }
+    /**
+     *
+     */
+    private fun getMaxAllowed(selectedUnitPressureEnum: UnitPressure?): BigDecimal {
+        val maxAllowedPressure = Pressure(BigDecimal("315"), UnitPressure.BAR)
+        return maxAllowedPressure.convertTo(selectedUnitPressureEnum)
     }
 
     // <-- OBTENCIÓN DE OPCIONES DISPONIBLES PARA LOS DROPDOWN -->
@@ -154,12 +135,12 @@ class CylinderViewModel : ViewModel() {
      */
     fun getCylinderEnum(selectedCylinder: String): Any? {
         // Buscar en CylinderSystemAmerican por su nombre
-        CylinderSystemAmerican.values().forEach { option ->
+        CylinderSystemAmerican.entries.forEach { option ->
             if (option.name == selectedCylinder) return option
         }
 
         // Buscar en CylinderSystemEuropean por su label
-        CylinderSystemEuropean.values().forEach { option ->
+        CylinderSystemEuropean.entries.forEach { option ->
             if (option.label == selectedCylinder) return option
         }
 
@@ -169,9 +150,42 @@ class CylinderViewModel : ViewModel() {
      *
      */
     fun getUnitPressureEnum(selectedUnitPressure: String): UnitPressure?{
-        UnitPressure.values().forEach { unit ->
+        UnitPressure.entries.forEach { unit ->
             if (unit.name == selectedUnitPressure) return unit
         }
         return null
     }
+
+    // <-- VALIDACIÓN CENTRALIZADA DE VALORES -->
+
+    fun isDataValid(tempPressure: String, tempFlow: String): Boolean {
+        val pressureValid = isPressureValid(tempPressure)
+        val flowSpeedValid = isFlowSpeedValid(tempFlow)
+        return pressureValid && flowSpeedValid
+    }
+
+    fun isPressureValid(tempPressure: String): Boolean {
+        val pressureValue = tempPressure.toBigDecimalOrNull()
+        val minAllowed = getMinAllowed(pressure.unit)
+        val maxAllowed = getMaxAllowed(pressure.unit)
+        return pressureValue != null && pressureValue in minAllowed..maxAllowed
+    }
+
+    fun isFlowSpeedValid(tempFlow: String): Boolean {
+        val flowValue = tempFlow.toIntOrNull()
+        return flowValue != null && flowValue in 1..15
+    }
+
+    // MENSAJES
+
+    @Composable
+    fun getErrorMsgPressure(): String {
+        val minValue = getMinAllowed(pressure.unit).setScale(0, RoundingMode.HALF_UP).toPlainString()
+        val maxValue = getMaxAllowed(pressure.unit).setScale(0, RoundingMode.HALF_UP).toPlainString()
+        return stringResource(R.string.error_pressure_value, minValue, maxValue)
+    }
 }
+
+//        Log.d("CylinderViewModelDebug", "PressureValueAfter: ${pressure.value}")
+//        Log.d("CylinderViewModelDebug", "PressureUnitAfter: ${pressure.unit}")
+//        Log.d("CylinderViewModelDebug", "CylinderPoAfter: ${cylinder.po}")

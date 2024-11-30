@@ -20,6 +20,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -40,8 +41,8 @@ import com.example.tempo2.model.UnitPressure
  * Prepara la lista de Strings a presentar juntando los 2 enum de tipos de Cylinder
  */
 fun getCylinderOptions(): List<String> {
-    val europeanOptions = CylinderSystemEuropean.values().map { it.label }
-    val americanOptions = CylinderSystemAmerican.values().map { it.name }
+    val europeanOptions = CylinderSystemEuropean.entries.map { it.label }
+    val americanOptions = CylinderSystemAmerican.entries.map { it.name }
     return europeanOptions + americanOptions
 }
 
@@ -49,7 +50,7 @@ fun getCylinderOptions(): List<String> {
  * Prepara la lista de valores para el spinner UnitPressure
  */
 fun getUnitPressureOptions(): List<String>{
-    return UnitPressure.values().map { it.name }
+    return UnitPressure.entries.map { it.name }
 }
 
 // fuente: https://www.youtube.com/watch?v=5h737wNN-qM&ab_channel=Destoffe
@@ -72,7 +73,7 @@ fun ExposedDropdownField(
         modifier = modifier
     ) {
         TextField(
-            modifier = Modifier.menuAnchor().then(modifier),
+            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable).then(modifier),
             value = selectedOption,
             onValueChange = {},
             readOnly = true,

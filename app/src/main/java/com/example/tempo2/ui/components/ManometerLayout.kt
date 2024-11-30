@@ -1,6 +1,7 @@
 package com.example.tempo2.ui.components
 
 import android.util.Log
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,18 +25,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.example.tempo2.R
-//import com.example.tempo2.calculateTip
-import com.example.tempo2.model.UnitPressure
-import com.example.tempo2.ui.viewmodels.CylinderViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.tempo2.ui.viewmodels.CylinderViewModel.Companion.getMaxAllowed
-import com.example.tempo2.ui.viewmodels.CylinderViewModel.Companion.getMinAllowed
+import com.example.tempo2.R
+import com.example.tempo2.ui.viewmodels.CylinderViewModel
+
 
 
 @Composable
@@ -43,7 +42,7 @@ fun ManometerLayout(
     viewModel: CylinderViewModel = viewModel()
 ) {
     // EditText valueFlowSpeed
-    val flowSpeedInputLayout by viewModel.flowSpeedInput.observeAsState("")
+    val flowSpeedInputLayout by viewModel.flowSpeedInput.observeAsState("") //viewmodel expone aqui la variable para flowspeed. El layout ahora puede observarlo
     var tempFlowSpeed by remember { mutableStateOf(flowSpeedInputLayout) }
     LaunchedEffect(flowSpeedInputLayout) {
         tempFlowSpeed = flowSpeedInputLayout
@@ -53,44 +52,21 @@ fun ManometerLayout(
 
     val pressureValueDisplayLayout by viewModel.pressureValueDisplay.observeAsState()
     // Variable temporal para manejar la entrada de usuario en la UI
-    var tempValue by remember { mutableStateOf(pressureValueDisplayLayout ?: "") }
+    var tempValuePressure by remember { mutableStateOf(pressureValueDisplayLayout ?: "") }
     // Sincronizamos `tempValue` con `pressureValueDisplay` en el ViewModel cada vez que cambia
     LaunchedEffect(pressureValueDisplayLayout) {
-        tempValue = pressureValueDisplayLayout ?: ""
+        tempValuePressure = pressureValueDisplayLayout ?: ""
     }
 
     // spinner unitpressure
     val unitPressureOptions = getUnitPressureOptions()
     var selectedUnitPressureName by remember { mutableStateOf(unitPressureOptions[0]) }
-    var selectedUnitPressureEnum by remember { mutableStateOf<UnitPressure?>(viewModel.getUnitPressureEnum(selectedUnitPressureName)) }
+    var selectedUnitPressureEnum by remember { mutableStateOf(viewModel.getUnitPressureEnum(selectedUnitPressureName)) }
 
     // spinner volume cylinder
     val cylinderOptions = getCylinderOptions()
     var selectedCylinderName by remember { mutableStateOf(cylinderOptions[0]) }
-    var selectedCylinderEnum by remember { mutableStateOf<Any?>(viewModel.getCylinderEnum(selectedCylinderName)) }
-
-    // rangos
-    val minValuePressure = getMinAllowed(selectedUnitPressureEnum).toInt()
-    val maxValuePressure = getMaxAllowed(selectedUnitPressureEnum).toInt()
-    val pressureAsInt = tempValue.toIntOrNull()
-    val pressureIsValid = pressureAsInt != null && (pressureAsInt in minValuePressure..maxValuePressure)
-    Log.d("ManometerLayoutDebug", "pressureIsValid: $pressureIsValid")
-    val minValuePressureString = minValuePressure.toString()
-    val maxValuePressureString = maxValuePressure.toString()
-    val errorMsg = stringResource(R.string.error_pressure_value, minValuePressureString, maxValuePressureString)
-
-    val minValueFlow = 1
-    val maxValueFlow = 15
-    val flowAsInt = tempFlowSpeed.toIntOrNull()
-    val flowSpeedIsValid = flowAsInt != null && (flowAsInt in minValueFlow..maxValueFlow) && tempFlowSpeed != ""
-    Log.d("ManometerLayoutDebug", "flowSpeedIsValid: $flowSpeedIsValid")
-
-
-    val isOutlined = (!pressureIsValid || !flowSpeedIsValid)
-    Log.d("ManometerLayoutDebug", "isOutlined: $isOutlined")
-
-    val hint_pressure = selectedUnitPressureEnum?.name.toString()
-
+    var selectedCylinderEnum by remember { mutableStateOf(viewModel.getCylinderEnum(selectedCylinderName)) }
 
     Column(
         modifier = Modifier
@@ -114,9 +90,9 @@ fun ManometerLayout(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             EditNumberField(
-                hint = hint_pressure,
-                errorMessage = errorMsg,
-                isErrorValue = !pressureIsValid,
+                hint = selectedUnitPressureEnum?.name.toString(),
+                errorMessage = viewModel.getErrorMsgPressure(),
+                isErrorValue = !viewModel.isPressureValid(tempValuePressure),
                 label = R.string.observed_pressure,
                 leadingIcon = R.drawable.readiness,
                 leadingIconDescription = R.string.cont_descrp_manometer_icon,
@@ -124,16 +100,16 @@ fun ManometerLayout(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
-                value = tempValue,
+                value = tempValuePressure,
                 onValueChange = { newValue ->
-                    tempValue = newValue
+                    tempValuePressure = newValue
                 },
-                modifier = Modifier
+                modifier = Modifier.testTag("pressureInput")
                     .weight(0.5f)
                     .padding(bottom = 18.dp)
                     .onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
-                            viewModel.updatePressureValue(tempValue, !isOutlined)
+                            viewModel.updatePressureValue(tempValuePressure)
                         }
                     }
             )
@@ -145,10 +121,10 @@ fun ManometerLayout(
                 onOptionSelected = { option ->
                     selectedUnitPressureName = option
                     selectedUnitPressureEnum = viewModel.getUnitPressureEnum(option)
-                    viewModel.updateUnitPressure(selectedUnitPressureEnum, !isOutlined)},
+                    viewModel.updateUnitPressure(selectedUnitPressureEnum)},
                 modifier = Modifier
                     .weight(0.5f)
-                    .padding(bottom = 18.dp) // TODO - LAST CHANGES
+                    .padding(bottom = 18.dp)
             )
         }
         Row(
@@ -159,7 +135,7 @@ fun ManometerLayout(
             EditNumberField(
                 hint = stringResource(R.string.hint_flow_speed),
                 errorMessage = stringResource(R.string.error_flow_speed_value),
-                isErrorValue = !flowSpeedIsValid,
+                isErrorValue = !viewModel.isFlowSpeedValid(tempFlowSpeed),
                 label = R.string.flow_speed,
                 leadingIcon = R.drawable.flow,
                 leadingIconDescription = R.string.cont_descrp_o2_flow_icon,
@@ -175,7 +151,7 @@ fun ManometerLayout(
                     .weight(0.5f)
                     .onFocusChanged { focusState ->
                         if (!focusState.isFocused) {
-                            viewModel.updateFlowSpeed(tempFlowSpeed, !isOutlined)
+                            viewModel.updateFlowSpeed(tempFlowSpeed)
                         }
                     }
             )
@@ -187,7 +163,7 @@ fun ManometerLayout(
                 onOptionSelected = { option ->
                     selectedCylinderName = option
                     selectedCylinderEnum = viewModel.getCylinderEnum(option)
-                    viewModel.updateCylinderVolume(selectedCylinderEnum, !isOutlined)},
+                    viewModel.updateCylinderVolume(selectedCylinderEnum)},
                 modifier = Modifier
                     .weight(0.5f)
                     .padding(bottom = 8.dp)
@@ -199,7 +175,7 @@ fun ManometerLayout(
             timeResult = R.string.remaining_time,
             leadingIconDescription = R.string.cont_descrp_timer,
             leadingIcon = R.drawable.timer,
-            isOutlined = isOutlined,
+            isOutlined = !viewModel.isDataValid(tempValuePressure, tempFlowSpeed),
             remainingTimeLayout = remainingTimeLayout
         )
     }

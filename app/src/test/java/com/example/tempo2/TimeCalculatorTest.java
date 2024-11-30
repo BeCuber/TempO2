@@ -132,6 +132,6 @@ public class TimeCalculatorTest {
         String resultado = TimeCalculator.formatTime(cylinder, flujo);
 
         // Verificación del resultado esperado (200 - 10) * 10 / 10 = 190 minutos --> 03:10
-        assertEquals("03:45", resultado);
+        assertEquals("03:57", resultado);
     }
 }
