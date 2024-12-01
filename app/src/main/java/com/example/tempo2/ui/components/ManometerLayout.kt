@@ -1,7 +1,5 @@
 package com.example.tempo2.ui.components
 
-import android.util.Log
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,6 +13,12 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -39,8 +43,31 @@ import com.example.tempo2.ui.viewmodels.CylinderViewModel
 
 @Composable
 fun ManometerLayout(
-    viewModel: CylinderViewModel = viewModel()
+    viewModel: CylinderViewModel = viewModel(),
+    isFirstTime: Boolean,
+    onFirstTimeDismissed: () -> Unit
 ) {
+
+    if (isFirstTime) {
+        AlertDialog(
+            onDismissRequest = {
+                onFirstTimeDismissed() // Dismiss y actualizar isFirstTime
+            },
+            icon = { Icon(Icons.Filled.Warning, contentDescription = null) },
+            title = { Text(text = "Advertencia") },
+            text = {
+                Text(
+                    "No debe basarse en la información de esta aplicación para tomar decisiones médicas."
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {  onFirstTimeDismissed() }) { Text("Entendido") }
+            }
+        )
+    }
+
+
+
     // EditText valueFlowSpeed
     val flowSpeedInputLayout by viewModel.flowSpeedInput.observeAsState("") //viewmodel expone aqui la variable para flowspeed. El layout ahora puede observarlo
     var tempFlowSpeed by remember { mutableStateOf(flowSpeedInputLayout) }

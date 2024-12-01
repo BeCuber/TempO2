@@ -15,11 +15,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tempo2.ui.components.FirstTimeDialog
 import com.example.tempo2.ui.components.ManometerLayout
 import com.example.tempo2.ui.theme.TempO2Theme
+//import com.example.tempo2.ui.viewmodels.DataStoreManager
+import com.example.tempo2.data.DataStoreManager
 import com.example.tempo2.ui.viewmodels.SettingsViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 /** TODO:
@@ -49,43 +54,43 @@ import com.example.tempo2.ui.viewmodels.SettingsViewModel
 
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var dataStoreManager: DataStoreManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        // Inicializar DataStoreManager
+        dataStoreManager = DataStoreManager(this)
+
+        // Estado para controlar si es la primera vez
+        val isFirstTimeState = mutableStateOf(true)
+
+        // Leer el valor de isFirstTime desde DataStore
+        lifecycleScope.launch {
+            dataStoreManager.isFirstTime.collectLatest { isFirstTime ->
+                isFirstTimeState.value = isFirstTime
+            }
+        }
+
         setContent {
-
-            //30 11
-            // Obtener el ViewModel directamente aquí
-//            val settingsViewModel: SettingsViewModel = viewModel()
-
-            // Observar el estado desde el ViewModel
-//            val isFirstTime by settingsViewModel.isFirstTime.collectAsState(initial = true)
-
-            // Estado local para controlar el diálogo
-//            var showDialog by remember { mutableStateOf(isFirstTime) }
-            // fin 30 11
-
 
             //Tema principal
             TempO2Theme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    ManometerLayout()
+                    ManometerLayout(
+                        isFirstTime = isFirstTimeState.value,
+                        onFirstTimeDismissed = {
+                            lifecycleScope.launch {
+                                dataStoreManager.setFirstTime(false) // Cambiar a false
+                            }
+                            isFirstTimeState.value = false // Actualizar el estado local
+                        }
+                    )
                 }
-
-                //30 11
-                // Mostrar el diálogo si es la primera vez
-//                if (showDialog) {
-//                    FirstTimeDialog(
-//                        message = "Es la primera vez que usas la app. Pulsa 'Entendido' para continuar.",
-//                        onDismiss = {
-//                            showDialog = false // Oculta el diálogo
-//                            settingsViewModel.setFirstTimeUsed() // Marca como no primera vez
-//                        }
-//                    )
-//                }
-                // fin 30 11
 
             }
         }
@@ -100,7 +105,10 @@ fun ManometerLayoutPreview() {
         Surface(
             modifier = Modifier.fillMaxSize(),
         ) {
-            ManometerLayout()
+            ManometerLayout(
+                isFirstTime = true, // Valor simulado para la vista previa
+                onFirstTimeDismissed = {} // Acción simulada para la vista previa
+            )
         }
     }
 }
