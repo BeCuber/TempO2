@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.tempo2.ui.components.FirstTimeDialog
+//import com.example.tempo2.ui.components.FirstTimeDialog
 import com.example.tempo2.ui.components.ManometerLayout
 import com.example.tempo2.ui.theme.TempO2Theme
 //import com.example.tempo2.ui.viewmodels.DataStoreManager
 import com.example.tempo2.data.DataStoreManager
-import com.example.tempo2.ui.viewmodels.SettingsViewModel
+//import com.example.tempo2.ui.viewmodels.SettingsViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

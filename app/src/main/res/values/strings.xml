@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">TempO2</string>
+    <string name="btn_agree">Understood</string>
     <string name="remaining_time">%s</string>
     <string name="label_time">Remaining time: </string>
     <string name="flow_speed">Flow speed</string>
@@ -14,4 +15,7 @@
     <string name="error_pressure_value">%1$s to %2$s</string>
     <string name="hint_flow_speed">L/m</string>
     <string name="hours_minutes">HOURS : MINUTES</string>
+    <string name="warning_init_msg">TempO2 is an informative and educational tool. It should not be used as the sole basis for medical, supply or safety decisions. The data may not be accurate and is not a substitute for advice from qualified professionals. The use of this application is the responsibility of the user. Always consult an expert if in doubt.</string>
+    <string name="warning_init_title">Usage warning</string>
+    <string name="warning_init_descrp_hero_icon">Warning icon</string>
 </resources>

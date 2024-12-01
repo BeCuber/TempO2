@@ -49,23 +49,14 @@ fun ManometerLayout(
 ) {
 
     if (isFirstTime) {
-        AlertDialog(
-            onDismissRequest = {
-                onFirstTimeDismissed() // Dismiss y actualizar isFirstTime
-            },
-            icon = { Icon(Icons.Filled.Warning, contentDescription = null) },
-            title = { Text(text = "Advertencia") },
-            text = {
-                Text(
-                    "No debe basarse en la información de esta aplicación para tomar decisiones médicas."
-                )
-            },
-            confirmButton = {
-                TextButton(onClick = {  onFirstTimeDismissed() }) { Text("Entendido") }
-            }
+        MessageDialog(
+            infoTitle = R.string.warning_init_title,
+            infoMsg = R.string.warning_init_msg,
+            iconDescription = R.string.warning_init_descrp_hero_icon,
+            heroIcon = R.drawable.warning,
+            onDismiss = onFirstTimeDismissed
         )
     }
-
 
 
     // EditText valueFlowSpeed
