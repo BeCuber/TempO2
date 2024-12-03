@@ -17,6 +17,8 @@ ui = "1.7.5"
 uiToolingPreview = "1.7.5"
 runtimeLivedata = "1.7.5"
 uiAndroid = "1.7.5"
+navigationCompose = "2.8.2"
+kotlinxSerialization = "1.6.3" # a partir de 1.7 requiere al menos kotlin = "2"
 
 [libraries]
 androidx-compose-bom-v20230800 = { module = "androidx.compose:compose-bom", version.ref = "composeBomVersion" }
@@ -45,8 +47,11 @@ ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version = 
 ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "uiToolingPreview" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrainsKotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 

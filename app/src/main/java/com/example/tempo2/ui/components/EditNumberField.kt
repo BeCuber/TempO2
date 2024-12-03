@@ -19,15 +19,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EditNumberField(
-    errorMessage: String,
-    isErrorValue: Boolean,
     hint: String,
+    value: String,
+    onValueChange: (String) -> Unit,
     @StringRes label: Int,
     @StringRes leadingIconDescription: Int,
     @DrawableRes leadingIcon: Int,
     keyboardOptions: KeyboardOptions,
-    value: String,
-    onValueChange: (String) -> Unit,
+    isErrorValue: Boolean,
+    errorMessage: String,
     modifier: Modifier = Modifier
 ) {
     // FocusManager para gestionar el foco en este campo
@@ -36,32 +36,32 @@ fun EditNumberField(
 
     TextField(
         placeholder = { Text(text = hint) },
-        supportingText = {
-            if (isErrorValue) {
-                Text(text = errorMessage)
+        singleLine = true,
+        value = value,
+        label = { Text(stringResource(label)) },
+        onValueChange = { newValue ->
+            if (numericRegex.matches(newValue)) { // Valida el nuevo valor con la regex (de uno en uno)
+                onValueChange(newValue) // Solo actualiza si son números
             }
         },
-        isError = isErrorValue,
-        value = value,
         leadingIcon = {
             Icon(
                 painter = painterResource(id = leadingIcon),
                 contentDescription = stringResource(id = leadingIconDescription),
                 modifier = Modifier.size(24.dp)
             ) },
-        onValueChange = { newValue ->
-            if (numericRegex.matches(newValue)) { // Valida el nuevo valor con la regex (de uno en uno)
-                onValueChange(newValue) // Solo actualiza si son números
-            }
-        },
-        label = { Text(stringResource(label)) },
-        singleLine = true,
         keyboardOptions = keyboardOptions,
         keyboardActions = KeyboardActions(
             onDone = {
                 focusManager.clearFocus() // Cuando se presiona "Done", se limpia el foco
             }
         ),
+        isError = isErrorValue,
+        supportingText = {
+            if (isErrorValue) {
+                Text(text = errorMessage)
+            }
+        },
         modifier = modifier
             .padding(end = 8.dp)
             .onFocusChanged { focusState ->

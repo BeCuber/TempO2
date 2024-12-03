@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.jetbrainsKotlinSerialization)
 }
 
 android {
@@ -63,16 +64,12 @@ dependencies {
     implementation(libs.androidx.ui.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-//    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.espresso.core.v351)
-//    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(platform(libs.androidx.compose.bom.v20230800))
-//    androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.ui.test.junit4)
     androidTestImplementation(libs.androidx.junit.v115)
 
     debugImplementation(libs.androidx.ui.tooling)
-//    debugImplementation(libs.androidx.ui.test.manifest)
     debugImplementation(libs.ui.test.manifest)
     // Dependencias de Compose
     implementation(libs.ui)
@@ -88,4 +85,8 @@ dependencies {
 
     // Preferences DataStore
     implementation(libs.androidx.datastore.preferences)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 }

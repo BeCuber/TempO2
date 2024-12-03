@@ -1,13 +1,10 @@
 package com.example.tempo2
 
-import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.tempo2.ui.components.ManometerLayout
+import com.example.tempo2.ui.layouts.ManometerLayout
 import com.example.tempo2.ui.theme.TempO2Theme
 
 import org.junit.Test

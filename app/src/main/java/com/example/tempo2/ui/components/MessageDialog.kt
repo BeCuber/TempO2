@@ -9,6 +9,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.example.tempo2.R
 
 @Composable
@@ -27,7 +28,7 @@ fun MessageDialog(
                 contentDescription = stringResource(id = iconDescription)
             ) },
         title = { Text(text = stringResource(id = infoTitle)) },
-        text = { Text(text = stringResource(id = infoMsg)) },
+        text = { Text(text = stringResource(id = infoMsg), textAlign = TextAlign.Justify) },
         confirmButton = {
             TextButton(onClick = { onDismiss() }) {
                 Text(stringResource(R.string.btn_agree))

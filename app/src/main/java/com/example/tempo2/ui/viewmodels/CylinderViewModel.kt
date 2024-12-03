@@ -1,6 +1,5 @@
 package com.example.tempo2.ui.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -38,6 +37,28 @@ class CylinderViewModel : ViewModel() {
     private var pressure = Pressure(BigDecimal("200"), unitPressure)
     private var cylinder = Cylinder(pressure, volume)
 
+    //02 12
+
+    private val _pressureErrorState = MutableLiveData(false)
+    val pressureErrorState: LiveData<Boolean> = _pressureErrorState
+
+    private val _cardTimeErrorState = MutableLiveData(false)
+    val cardTimeErrorState: LiveData<Boolean> = _cardTimeErrorState
+
+    fun validatePressure(tempValuePressure: String) {
+        _pressureErrorState.value = !isPressureValid(tempValuePressure)
+        validateCardTime(tempValuePressure, flowSpeedInput.value ?: "") // Revalida CardTime
+    }
+
+    fun validateCardTime(tempPressure: String, tempFlow: String) {
+        _cardTimeErrorState.value = !isDataValid(tempPressure, tempFlow)
+    }
+
+
+//    var isUpdating = mutableStateOf(false)
+//    private val _isUpdating = MutableLiveData(false)
+//    val isUpdating: LiveData<Boolean> = _isUpdating
+    //02 12
 
 
     // <-- ACTUALIZACIÓN DE VALORES EN LOS COMPOSABLES -->
@@ -61,16 +82,18 @@ class CylinderViewModel : ViewModel() {
      * Actualiza pressure, cylinder y _pressureValueDisplay(String) con el nuevo valor del DropDown UnitPressure.
      */
     fun updateUnitPressure(selectedUnitPressureEnum: UnitPressure?) {
-//        if (!isValid) {
-//            updateTime()
-//            return
-//        }
+        //02 12
+//        _isUpdating.value = true // Indicar que estamos en modo "actualización"
+        //02 12
         val newValuePressure = pressure.convertTo(selectedUnitPressureEnum) // BigDecimal
         pressure.setValue(newValuePressure)
         pressure.setUnit(selectedUnitPressureEnum)
         _pressureValueDisplay.value = pressure.value.setScale(0, RoundingMode.HALF_UP).toPlainString()
         cylinder.setPo(pressure)
         updateTime()
+        //02 12
+//        _isUpdating.value = false  //  Finalizar la actualización
+        //02 12
     }
 
 
