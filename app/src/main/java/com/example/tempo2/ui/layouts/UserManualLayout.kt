@@ -5,7 +5,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,10 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -25,18 +21,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tempo2.R
 import com.example.tempo2.ui.components.TopBar
+import com.example.tempo2.ui.theme.TempO2Theme
 
 @Composable
 fun UserManualLayout(navigateApp:() -> Unit) {
@@ -50,7 +46,7 @@ fun UserManualLayout(navigateApp:() -> Unit) {
             TopBar(
                 title = R.string.manual_title,
                 icon = R.drawable.close,
-                descr_icon = R.string.cont_descrp_close_icon,
+                descrIcon = R.string.cont_descrp_close_icon,
                 onIconClick = navigateApp
             )
         }
@@ -78,7 +74,7 @@ fun UserManualLayout(navigateApp:() -> Unit) {
                         5 -> R.drawable.manual_img_5
                         else -> R.drawable.manual_img_6
                     },
-                    descr_img = when(currentPage) {
+                    descrImg = when(currentPage) {
                         1 -> R.string.cont_descrp_img_manual_1
                         2 -> R.string.cont_descrp_img_manual_2
                         3 -> R.string.cont_descrp_img_manual_3
@@ -110,7 +106,7 @@ fun UserManualLayout(navigateApp:() -> Unit) {
 @Composable
 fun ManualPage(
     @DrawableRes img: Int,
-    @StringRes descr_img: Int,
+    @StringRes descrImg: Int,
     @StringRes title: Int,
     @StringRes text: Int,
     isBackEnabled: Boolean,
@@ -128,7 +124,7 @@ fun ManualPage(
         Spacer(modifier = Modifier.height(8.dp))
         Image(
             painter = painterResource(img),
-            contentDescription = stringResource(descr_img),
+            contentDescription = stringResource(descrImg),
             modifier = Modifier
                 .size(240.dp)
         )
@@ -171,6 +167,19 @@ fun ManualPage(
                     modifier = Modifier.size(28.dp)
                 )
             }
+        }
+    }
+}
+
+
+@Preview
+@Composable
+fun UserManualLayout() {
+    TempO2Theme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            UserManualLayout(navigateApp = {})
         }
     }
 }

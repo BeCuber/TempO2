@@ -14,8 +14,7 @@ public class Cylinder {
      */
     private BigDecimal po;
     /**
-     * Presión residual de la botella, en bares. Se ajusta automáticamente
-     * dependiendo del volumen de la botella.
+     * Presión residual de la botella, en bares.
      */
     private BigDecimal pr;
     /**
@@ -63,7 +62,7 @@ public class Cylinder {
             throw new IllegalArgumentException("El volumen debe ser mayor a cero.");
         }
         this.vol1Bar = vol1Bar.setScale(7, RoundingMode.HALF_DOWN);
-        setPr();
+//        setPr();
     }
 
 

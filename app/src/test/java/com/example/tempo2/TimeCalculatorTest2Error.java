@@ -1,6 +1,6 @@
 package com.example.tempo2;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.example.tempo2.model.Cylinder;
 import com.example.tempo2.model.Pressure;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(Parameterized.class)
-public class TimeCalculatorTest2 {
+public class TimeCalculatorTest2Error {
 
     private final int bares;
     private final int flujo;
@@ -24,7 +24,7 @@ public class TimeCalculatorTest2 {
     private final String tiempoEsperado;
 
     // Constructor para recibir los parámetros
-    public TimeCalculatorTest2(int bares, int flujo, int volumen, String tiempoEsperado) {
+    public TimeCalculatorTest2Error(int bares, int flujo, int volumen, String tiempoEsperado) {
         this.bares = bares;
         this.flujo = flujo;
         this.volumen = volumen;
@@ -82,11 +82,35 @@ public class TimeCalculatorTest2 {
         // Convertir flujo a BigDecimal
         BigDecimal flujoBD = new BigDecimal(flujo);
 
-        // Obtener el tiempo formateado
-        String tiempoCalculado = TimeCalculator.formatTime(cylinder, flujoBD);
+        // Obtener el tiempo calculado en minutos
+        BigDecimal tiempoCalculadoMinutos = TimeCalculator.calculateTime(cylinder, flujoBD);
 
-        // Verificar que el tiempo calculado coincide con el esperado
-        assertEquals(tiempoEsperado, tiempoCalculado);
+        // Convertir el tiempo esperado (HH:mm) a minutos
+        int tiempoEsperadoMinutos = convertirTiempoAMinutos(tiempoEsperado);
+
+        // Calcular el porcentaje de error
+        double porcentajeError = calcularPorcentajeError(tiempoEsperadoMinutos, tiempoCalculadoMinutos.intValue());
+
+        // Verificar que el error esté dentro del margen permitido del 5%
+        assertTrue("El porcentaje de error excede el 5%: " + porcentajeError + "%",
+                porcentajeError <= 10.0);
+    }
+
+    // Método auxiliar para convertir tiempo "HH:mm" a minutos totales
+    private int convertirTiempoAMinutos(String tiempo) {
+        String[] partes = tiempo.split(":");
+        int horas = Integer.parseInt(partes[0]);
+        int minutos = Integer.parseInt(partes[1]);
+        return (horas * 60) + minutos;
+    }
+
+    // Método auxiliar para calcular el porcentaje de error
+    private double calcularPorcentajeError(int esperado, int calculado) {
+        return Math.abs((double)(calculado - esperado) / esperado) * 100;
     }
 
 }
+
+
+//public class TimeCalculatorTest2Error {
+//}

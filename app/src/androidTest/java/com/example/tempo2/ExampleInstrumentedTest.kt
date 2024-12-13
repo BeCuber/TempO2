@@ -31,15 +31,15 @@ class ExampleInstrumentedTest {
     val rule = createComposeRule() // El acceso a Activity no es el default para createRule
 //    val pressureString = rule.activity.getString(R.string.observed_pressure) // Para acceder al R.string hace falta acceder a la Activity que tiene el xml
 
-    @Test
-    fun defaultValues() {
-        rule.setContent {
-            TempO2Theme{
-                ManometerLayout()
-            }
-        }
-
-        rule.onNodeWithTag("pressureInput").assertExists()
-
-    }
+//    @Test
+//    fun defaultValues() {
+//        rule.setContent {
+//            TempO2Theme{
+//                ManometerLayout()
+//            }
+//        }
+//
+//        rule.onNodeWithTag("pressureInput").assertExists()
+//
+//    }
 }

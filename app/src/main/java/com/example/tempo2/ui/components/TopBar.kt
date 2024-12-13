@@ -16,14 +16,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
-//import com.example.tempo2.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     @StringRes title: Int,
     @DrawableRes icon: Int,
-    @StringRes descr_icon: Int,
+    @StringRes descrIcon: Int,
     onIconClick: () -> Unit
 
 ) {
@@ -36,7 +35,7 @@ fun TopBar(
             IconButton(onClick = onIconClick) {
                 Icon(
                     painter = painterResource(icon),
-                    contentDescription = stringResource(descr_icon),
+                    contentDescription = stringResource(descrIcon),
                     modifier = Modifier.size(28.dp)
                 )
             }

@@ -23,7 +23,7 @@ public class CylinderSystemAmericanTest {
     }
 
     @Test
-    public void testCrearBotellaConBEstandarKPA(){ // TODO se ha modificado ¡DOC! | revisar: esta prueba falla si cambio en el setter convertToBar() a convertTo(UnitPressure.BAR)
+    public void testCrearBotellaConBEstandarKPA(){
         // Verifica que se puede crear un objeto Presion con valores válidos.
         Pressure po = new Pressure(new BigDecimal("10000"), UnitPressure.KPA);
         assertEquals(UnitPressure.KPA, po.getUnit());
@@ -31,7 +31,6 @@ public class CylinderSystemAmericanTest {
         Cylinder cylinder = new Cylinder(po, CylinderSystemAmerican.E.getVol1Bar());
 
         assertEquals(new BigDecimal("100.0000000").setScale(7), cylinder.getPo());
-//        assertEquals(UnitPressure.KPA, po.getUnit());
         assertEquals(new BigDecimal("4.9635036"), cylinder.getVol1Bar());
     }
 

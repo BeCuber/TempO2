@@ -19,7 +19,7 @@ public class TimeCalculator {
      * @throws IllegalArgumentException si el flow es menor o igual a cero.
      */
     public static BigDecimal calculateTime(Cylinder cylinder, BigDecimal flow) {
-        // Fórmula: tiempo = (Pr - Po) * volumen / flow
+        // Fórmula: tiempo = (Po - Pr) * volumen / flow
         if (flow.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("El flow debe ser mayor a cero.");
         }

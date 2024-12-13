@@ -31,10 +31,10 @@
     <string name="text_3">Open the valve and check the pressure.\n\nIn this example the pressure gauge shows 6000 kPa and also 870 psi.\n\nLook at the unit.</string>
     <string name="text_4">TempO2 will calculate the remaining oxygen time by adjusting the following parameters:\n\n1. Write the pressure value: In this case 6000.\n\n2. Choose the pressure unit: In this case kPa.\n\n3. Choose the flow rate you plan to use (L/min). For our second scenario: 6 L/min.\n\n4. Choose a cylinder format: In this case: 10 L.</string>
     <string name="text_5">The remaining time is 1 hour and 23 minutes.\n\nYou will be able to make the secondary transfer even with room for unforeseen events.</string>
-    <string name="text_6">Belén Cubero Torrado\n\nMAD Final Project\n\nfor Cesur @2024</string>
+    <string name="text_6">Belén Cubero Torrado\n\nMAD Final Project @2024</string>
     <string name="title_1">SCA at home</string>
     <string name="title_2">Secondary Transfer</string>
-    <string name="title_3">Look at the pressure gauge</string>
+    <string name="title_3">Look at pressure gauge</string>
     <string name="title_4">Set the values</string>
     <string name="title_5">Remaining Time</string>
     <string name="title_6">Blame</string>

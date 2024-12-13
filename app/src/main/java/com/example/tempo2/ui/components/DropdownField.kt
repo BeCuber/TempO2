@@ -24,23 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.tempo2.model.UnitPressure
 
-/**
- * Prepara la lista de Strings a presentar juntando los 2 enum de tipos de Cylinder
- */
-fun getCylinderOptions(): List<String> {
-    val europeanOptions = CylinderSystemEuropean.entries.map { it.label }
-    val americanOptions = CylinderSystemAmerican.entries.map { it.name }
-    return europeanOptions + americanOptions
-}
 
-/**
- * Prepara la lista de valores para el spinner UnitPressure
- */
-fun getUnitPressureOptions(): List<String>{
-    return UnitPressure.entries.map { it.name }
-}
-
-// fuente: https://www.youtube.com/watch?v=5h737wNN-qM&ab_channel=Destoffe
+// fuente: https://www.youtube.com/watch?v=5h737wNN-qM&ab_channel=Destoffe TODO referencias
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownField(

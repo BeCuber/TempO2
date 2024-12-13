@@ -51,14 +51,14 @@ public class Pressure {
         this.unit = unit;
     }
 
-    /**
-     * Convierte el valor de presión a bares utilizando la unidad de presión actual.
-     *
-     * @return el valor de la presión convertido a bares.
-     */
-    public BigDecimal convertToBar() {
-        return unit.convertToBar(value);
-    }
+//    /**
+//     * Convierte el valor de presión a bares utilizando la unidad de presión actual.
+//     *
+//     * @return el valor de la presión convertido a bares.
+//     */
+//    public BigDecimal convertToBar() {
+//        return unit.convertToBar(value);
+//    }
 
     /**
      * Convierte este objeto Pressure al valor y unidad seleccionados.

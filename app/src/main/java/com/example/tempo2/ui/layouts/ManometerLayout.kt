@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-//import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -36,10 +35,7 @@ import com.example.tempo2.ui.components.DropdownField
 import com.example.tempo2.ui.components.EditNumberField
 import com.example.tempo2.ui.components.MessageDialog
 import com.example.tempo2.ui.components.TopBar
-import com.example.tempo2.ui.components.getCylinderOptions
-import com.example.tempo2.ui.components.getUnitPressureOptions
 import com.example.tempo2.ui.viewmodels.CylinderViewModel
-//import kotlinx.coroutines.delay
 
 
 @Composable
@@ -50,15 +46,12 @@ fun ManometerLayout(
     navigateToUserManual: () -> Unit
 
 ) {
-    // Control adicional para evitar parpadeo
-//    var shouldShowDialog by remember { mutableStateOf(isFirstTime) }
-
     Scaffold(
         topBar = {
             TopBar(
                 title = R.string.app_name,
                 icon = R.drawable.help,
-                descr_icon = R.string.cont_descrp_help,
+                descrIcon = R.string.cont_descrp_help,
                 onIconClick = navigateToUserManual
             )
          },
@@ -73,7 +66,6 @@ fun ManometerLayout(
                 onDismiss = onFirstTimeDismissed
             )
         }
-
             // EditText valueFlowSpeed
             val flowSpeedInputLayout by viewModel.flowSpeedInput.observeAsState("") //viewmodel expone aqui la variable para flowspeed. El layout ahora puede observarlo
             var tempFlowSpeed by remember { mutableStateOf(flowSpeedInputLayout) }
@@ -87,7 +79,7 @@ fun ManometerLayout(
             val pressureValueDisplayLayout by viewModel.pressureValueDisplay.observeAsState()
             // Variable temporal para manejar la entrada de usuario en la UI
             var tempValuePressure by remember { mutableStateOf(pressureValueDisplayLayout ?: "") }
-            // Sincronizamos `tempValue` con `pressureValueDisplay` en el ViewModel cada vez que cambia
+            // Sincroniza `tempValue` con `pressureValueDisplay` en el ViewModel cada vez que cambia
             LaunchedEffect(pressureValueDisplayLayout) {
                 tempValuePressure = pressureValueDisplayLayout ?: ""
             }
@@ -96,21 +88,21 @@ fun ManometerLayout(
             val cardTimeErrorStateLayout by viewModel.cardTimeErrorState.observeAsState()
 
             // spinner unitpressure
-            val unitPressureOptions = getUnitPressureOptions()
+//            val unitPressureOptions = getUnitPressureOptions()
+            val unitPressureOptions = viewModel.getUnitPressureOptions()
             var selectedUnitPressureName by remember { mutableStateOf(unitPressureOptions[0]) }
             var selectedUnitPressureEnum by remember { mutableStateOf(viewModel.getUnitPressureEnum(selectedUnitPressureName)) }
 
             // spinner volume cylinder
-            val cylinderOptions = getCylinderOptions()
+//            val cylinderOptions = getCylinderOptions()
+            val cylinderOptions = viewModel.getCylinderOptions()
             var selectedCylinderName by remember { mutableStateOf(cylinderOptions[0]) }
             var selectedCylinderEnum by remember { mutableStateOf(viewModel.getCylinderEnum(selectedCylinderName)) }
 
             Column(
                 modifier = Modifier
                     .padding(paddingValues)
-//                    .statusBarsPadding()
                     .padding(horizontal = 40.dp)
-//                    .safeDrawingPadding()
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
