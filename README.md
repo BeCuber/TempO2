@@ -1,3 +1,4 @@
+[![Static Badge](https://img.shields.io/badge/This%20README%20is%20available%20in%20english-6556E8)](./README_EN.md)
 # Proyecto: TempO<sub>2</sub>
 ## Descripción
 Este repositorio contiene el proyecto desarrollado como trabajo final del ciclo formativo FPII DAM.
@@ -39,7 +40,6 @@ De momento la aplicación se encuentra únicamente en este repositorio.
 - Añadir elementos que permitan personalizar los parámetros iniciales de las botellas según fabricante.
 - Aumentar los atributos de DataStoreManager para añadir configuraciónes personalizadas (modo nocturno, valores por defecto de botellas...)
 
- 
 ## Notas
 -  **Uso personal:** El código aquí compartido es principalmente para aprendizaje y experimentación.
 -  **No apto para producción:** Este repositorio no está destinado a ser utilizado en un entorno de producción ni para otros proyectos sin previa revisión.
@@ -48,4 +48,3 @@ De momento la aplicación se encuentra únicamente en este repositorio.
 
 ---
 ¡Gracias por visitar Temp0<sub>2</sub>! Estoy en un proceso continuo de aprendizaje, así que cualquier sugerencia o comentario es bienvenido.
----
