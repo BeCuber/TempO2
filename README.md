@@ -1,4 +1,4 @@
-[![Static Badge](https://img.shields.io/badge/This%20README%20is%20available%20in%20english-6556E8)](./README_EN.md)
+[![Static Badge](https://img.shields.io/badge/%F0%9F%93%96-This_README_is_available_in_english-blue)](./README_EN.md)
 # Proyecto: TempO<sub>2</sub>
 ## Descripción
 Este repositorio contiene el proyecto desarrollado como trabajo final del ciclo formativo FPII DAM.
@@ -47,4 +47,4 @@ De momento la aplicación se encuentra únicamente en este repositorio.
 
 
 ---
-¡Gracias por visitar Temp0<sub>2</sub>! Estoy en un proceso continuo de aprendizaje, así que cualquier sugerencia o comentario es bienvenido.
+¡Gracias por visitar TempO<sub>2</sub>! Estoy en un proceso continuo de aprendizaje, así que cualquier sugerencia o comentario es bienvenido.

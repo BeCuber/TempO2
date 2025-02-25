@@ -1,4 +1,4 @@
-[![Static Badge](https://img.shields.io/badge/Back%20to%20spanish%20-6556E8)](https://github.com/BeCuber/TempO2)
+[![Static Badge](https://img.shields.io/badge/%F0%9F%93%96-Back_to_spanish-blue)](https://github.com/BeCuber/TempO2)
 # Project: TempO<sub>2</sub>
 ## Description
 This repository contains the project developed as final work for [Certificate of Higher Education (HNC)](https://www.inesem.es/revistadigital/idiomas/equivalencia-de-estudios-como-traducir-tus-titulaciones-al-ingles-uk-2/) on Cross-platform application development.
@@ -47,4 +47,4 @@ The application is currently available only in this repository.
 
 
 ---
-Thank you for visiting Temp0<sub>2</sub>! I'm continuously learning, so any suggestions or feedback are always welcome.
+Thank you for visiting TempO<sub>2</sub>! I'm continuously learning, so any suggestions or feedback are always welcome.
